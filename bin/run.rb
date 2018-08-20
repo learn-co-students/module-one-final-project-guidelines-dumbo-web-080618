@@ -1,6 +1,6 @@
 require 'pry'
 require_relative '../config/environment'
 
-
-binding.pry
+welcome = welcome.rb
+# binding.pry
 puts "HELLO WORLD"
