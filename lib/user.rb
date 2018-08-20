@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   def add_a_question(topic, question, answer)
     q = Question.create(topic: topic, question: question, answer: answer)
     # binding.pry
-    Deck.create(self.id, q.id, q.topic)
+    Deck.create(user_id: self.id, question_id: q.id, topic: q.topic)
   end
 
   def find_a_question(topic, question, answer)
