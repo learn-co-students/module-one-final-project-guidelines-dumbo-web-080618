@@ -1,5 +1,5 @@
 class Question < ActiveRecord::Base 
-  has_many :decks
+  belongs_to :deck
   has_many :users, through: :deck
-  
+
 end

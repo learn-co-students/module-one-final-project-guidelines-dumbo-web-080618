@@ -7,10 +7,11 @@ class SettingUpDatabase < ActiveRecord::Migration[5.0]
     create_table :decks do |t|
       t.integer :user_id
       t.integer :question_id
+      t.string :topic
     end
 
     create_table :questions do |t|
-      t.string :category
+      t.string :topic
       t.text :question
       t.string :answer
     end
