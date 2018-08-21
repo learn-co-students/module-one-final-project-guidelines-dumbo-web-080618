@@ -1,5 +1,5 @@
 def make_a_new_card(user)
-  puts "Welcome #{user}. What would you like to do?"
+  puts "Welcome #{user.name}. What would you like to do?"
   puts "(1) Add a new card"
   puts "(2) Go back to Main Menu"
 

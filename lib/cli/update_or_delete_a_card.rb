@@ -52,6 +52,7 @@ def update_card(user)
       question.topic = new_topic
       puts "The topic has been updated"
       question.save
+      user = update_user
       return
 
     elsif change == "2"
@@ -60,6 +61,7 @@ def update_card(user)
       question.question = new_question
       puts "The question has been updated"
       question.save
+      user = update_user
       return
 
     elsif change == "3"
@@ -68,6 +70,7 @@ def update_card(user)
       question.answer = new_snwer
       puts "The answer has been updated"
       question.save
+      user = update_user
       return
     else
       puts "Please choose a valid option"
@@ -78,6 +81,7 @@ end
 
 
 def delete_card(user)
+  user = update_user(user)
   questions = user.questions
   questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}"}
   puts "Please choose a question to delete from your deck"
