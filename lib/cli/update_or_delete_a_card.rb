@@ -34,7 +34,7 @@ end
 
 def update_card(user)
   questions = user.questions
-  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}"}
+  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}, Topic #{question.topic}"}
   puts "Please choose a question ID you want to update"
   q_id = gets.chomp.to_i
 
@@ -51,18 +51,21 @@ def update_card(user)
       new_topic = gets.chomp
       question.update(topic: new_topic)
       puts "The topic has been updated"
+      question.save
 
     elsif change == "2"
       puts "What is the new question?"
       new_question = gets.chomp
       question.update(question: new_question)
       puts "The question has been updated"
+      question.save
 
     elsif change == "3"
       puts "What is the new answer?"
       new_answer = gets.chomp
       question.update(answer: new_answer)
       puts "The answer has been updated"
+      question.save
     end
 
 end
@@ -78,7 +81,7 @@ def delete_card(user)
 
   deck = Deck.find_by(user_id:user.id, question_id:question.id)
   Deck.destory(deck)
-  
+
 end
 
 
