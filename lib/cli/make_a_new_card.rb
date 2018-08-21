@@ -24,7 +24,9 @@ def make_a_new_card(user)
 
 
     puts "The question card has been added to your deck with topic #{topic}."
-    puts "Would you like to (1) add another question or (2) go back to main menu?"
+    puts "Would you like to do"
+    puts "(1) add another question"
+    puts "(2) go back to main menu"
     choice = gets.chomp
   end
 
