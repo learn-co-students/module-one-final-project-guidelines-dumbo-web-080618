@@ -14,4 +14,5 @@ class Doctor < ActiveRecord::Base
     splited_name = name.split(" ")
     self.find_by(first_name:splited_name[0], last_name:splited_name[1])
   end
+
 end

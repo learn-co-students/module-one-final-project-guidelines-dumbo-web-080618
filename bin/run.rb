@@ -12,7 +12,7 @@ def help
   puts "--------------------------------------------------------"
   puts "help - will give you choices of available commands"
   puts "view - will see all of the current patient appointments"
-  puts "create - will create a new patient"
+  puts "create - will create an appointment"
   puts "update - will update an existing patient's appointment"
   puts "remove - will remove the existing patient's appointment"
   puts "exit - exit this program"
@@ -28,47 +28,86 @@ ActiveRecord::Base.logger = nil
 # patient = Patient.find_patient(user_input)
 # puts patient.full_name
 
-felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
-otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
-sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
-appt = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/02/2018 03:00")
-appt1 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/03/2018 05:00")
+# felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
+# otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
+# sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
+# appt = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/02/2018 03:00")
+# appt1 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/03/2018 05:00")
 
 # puts enter a date
 # user_input = gets.chomp
 # date = Time.parse(user_input)
 def view
-  puts "Please enter your full name:"
-  user_input1 = gets.chomp
-  f_patient = Patient.find_patient(user_input1)
-  f_patient.view
-
+  prompt = TTY::Prompt.new
+  begin
+    user_input1 = prompt.ask("Please enter your full name:")
+    f_patient = Patient.find_patient(user_input1)
+    f_patient.view
+  rescue
+    puts "Yep something went wrong in view dunno where..."
+    binding.pry
+  end
 end
 
 def create
-  puts "Please enter your full name:"
-  p_full_name = gets.chomp
-  f_patient = Patient.find_patient(p_full_name)
-  puts "Please enter doctor's full name:"
-  d_full_name = gets.chomp
-  f_doctor = Doctor.find_doctor(d_full_name)
-  puts "Please enter appointment date:"
-  puts "dates are MM/DD/YYYY HH:MM example 01/01/1901 00:00"
-  date = Time.parse(gets.chomp)
-  f_patient.add_appointment(f_doctor,date)
+  prompt = TTY::Prompt.new
+  begin
+    p_full_name = prompt.ask("Please enter your full name:")
+    f_patient = Patient.find_patient(p_full_name)
+    if f_patient == nil
+      puts "no patient by this name!!!!!!!"
+      return
+    end
+    d_full_name = prompt.ask("Please enter doctor's full name:")
+    f_doctor = Doctor.find_doctor(d_full_name)
+    if f_doctor == nil
+      puts "no doctor by this name!!!!!!!"
+      return
+    end
+    puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
+    begin
+      date = prompt.ask("Please enter appointment date:", convert: :datetime)
+      f_patient.add_appointment(f_doctor, date)
+      puts "The appointment has been created!"
+    rescue
+      puts "bad time yoh!"
+      puts "enter better!!!"
+    end
+
+  rescue
+    puts "Yep something went wrong in create dunno where..."
+    binding.pry
+  end
 end
 
 def update
   prompt = TTY::Prompt.new
   begin
     name = prompt.ask('What is your full name?')
-    doctor = prompt.ask('Which doctor you want to change an appointment with?')
-    puts "dates are MM/DD/YYYY HH:MM example 01/01/0001 00:00"
-    old_time = Time.parse(prompt.ask('What appointment do you like to update?', default: ENV['USER']))
-    new_time = Time.parse(prompt.ask('What time do you want to update to?'))
     pname = Patient.find_patient(name)
-    pdoctor = Doctor.find_doctor(doctor)
+    if pname == nil
+      puts "patient name does not exist"
+    end
+    # doctor = prompt.ask('Which doctor you want to change an appointment with?')
+    list_all_doctors = Doctor.all.map {|e| e.full_name}
+    list_all_doctors_obj = Doctor.all.map {|e| e}
+    doctor_map = {}
+    for i in 0..list_all_doctors.length-1
+      doctor_map[list_all_doctors[i]] = list_all_doctors_obj[i]
+    end
+    pdoctor = prompt.select("Choose your doctor", doctor_map)
+    puts "dates are DD/MM/YYYY HH:MM example 01/01/0001 00:00"
+    list_all_name = Appointment.all.select{|e| e.patient == pname}
+    list_all_time = list_all_name.map {|e| e.date}
+    patient_map_time = {}
+    for i in 0..list_all_time.length-1
+      patient_map_time[list_all_time[i]] = list_all_time[i]
+    end
+    old_time = prompt.select('What appointment do you like to update?', patient_map_time)
+    new_time = Time.parse(prompt.ask('What appointment time do you want to update to?'))
+
     pname.update_appointment(pdoctor, old_time, new_time)
+    puts "The appointment has been updated!"
   rescue
     puts "Yep something went wrong in update dunno where..."
     binding.pry
@@ -80,11 +119,13 @@ def remove
   begin
     name = prompt.ask('What is your full name?')
     doctor = prompt.ask('Which doctor you want to change an appointment with?')
-    puts "dates are MM/DD/YYYY HH:MM example 01/01/0001 00:00"
+    puts "dates are DD/MM/YYYY HH:MM example 01/01/0001 00:00"
     time = Time.parse(prompt.ask('What appointment time do you like to remove?', default: ENV['USER']))
     pname = Patient.find_patient(name)
     pdoctor = Doctor.find_doctor(doctor)
     pname.remove_appointment(pdoctor, time)
+    puts "The appointment has been removed!"
+
   rescue
     puts "Yep something went wrong in remove dunno where..."
     binding.pry
@@ -96,7 +137,6 @@ def run
   welcome
   help
   #name = prompt.ask('What is your full name?')
-  #splited_name = name.split(" ")
   loop do
     input = prompt.select("Choose your choice?", %w(Help View Create Update Remove Exit))
     case input
