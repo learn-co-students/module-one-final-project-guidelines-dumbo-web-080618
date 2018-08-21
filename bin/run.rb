@@ -33,6 +33,8 @@ ActiveRecord::Base.logger = nil
 # sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
 # appt = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/02/2018 03:00")
 # appt1 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/03/2018 05:00")
+# vidim = Doctor.create(first_name:"vadim",last_name:"avnilov",gender:"bm", specialties:"gynaecologist")
+
 
 # puts enter a date
 # user_input = gets.chomp
@@ -58,16 +60,17 @@ def create
       puts "no patient by this name!!!!!!!"
       return
     end
-    d_full_name = prompt.ask("Please enter doctor's full name:")
-    f_doctor = Doctor.find_doctor(d_full_name)
-    if f_doctor == nil
-      puts "no doctor by this name!!!!!!!"
-      return
-    end
+    doctor = prompt.select("Choose your doctor", map_of_doctors)
+    # d_full_name = prompt.ask("Please enter doctor's full name:")
+    # f_doctor = Doctor.find_doctor(d_full_name)
+    # if f_doctor == nil
+    #   puts "no doctor by this name!!!!!!!"
+    #   return
+    # end
     puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     begin
       date = prompt.ask("Please enter appointment date:", convert: :datetime)
-      f_patient.add_appointment(f_doctor, date)
+      f_patient.add_appointment(doctor, date)
       puts "The appointment has been created!"
     rescue
       puts "bad time yoh!"
@@ -80,6 +83,16 @@ def create
   end
 end
 
+def map_of_doctors
+  list_all_doctors = Doctor.all.map {|e| e.full_name}
+  list_all_doctors_obj = Doctor.all.map {|e| e}
+  doctor_map = {}
+  for i in 0..list_all_doctors.length-1
+    doctor_map[list_all_doctors[i]] = list_all_doctors_obj[i]
+  end
+  doctor_map
+end
+
 def update
   prompt = TTY::Prompt.new
   begin
@@ -87,24 +100,25 @@ def update
     pname = Patient.find_patient(name)
     if pname == nil
       puts "patient name does not exist"
+      return
     end
     # doctor = prompt.ask('Which doctor you want to change an appointment with?')
-    list_all_doctors = Doctor.all.map {|e| e.full_name}
-    list_all_doctors_obj = Doctor.all.map {|e| e}
-    doctor_map = {}
-    for i in 0..list_all_doctors.length-1
-      doctor_map[list_all_doctors[i]] = list_all_doctors_obj[i]
-    end
-    pdoctor = prompt.select("Choose your doctor", doctor_map)
-    puts "dates are DD/MM/YYYY HH:MM example 01/01/0001 00:00"
-    list_all_name = Appointment.all.select{|e| e.patient == pname}
+    pdoctor = prompt.select("Choose your doctor", map_of_doctors)
+
+    list_all_name = Appointment.all.select{|e| e.patient == pname and e.doctor == pdoctor}
     list_all_time = list_all_name.map {|e| e.date}
     patient_map_time = {}
     for i in 0..list_all_time.length-1
       patient_map_time[list_all_time[i]] = list_all_time[i]
     end
-    old_time = prompt.select('What appointment do you like to update?', patient_map_time)
-    new_time = Time.parse(prompt.ask('What appointment time do you want to update to?'))
+    begin
+      old_time = prompt.select('What appointment do you like to update?', patient_map_time)
+    rescue
+      puts "You have no appointment(s) with #{pdoctor.full_name}"
+      return
+    end
+    puts "dates are DD/MM/YYYY HH:MM example 01/01/0001 00:00"
+    new_time = Time.parse(prompt.ask('Please enter a new date/time:'))
 
     pname.update_appointment(pdoctor, old_time, new_time)
     puts "The appointment has been updated!"
