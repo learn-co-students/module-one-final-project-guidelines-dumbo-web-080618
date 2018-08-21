@@ -15,7 +15,7 @@ class Patient < ActiveRecord::Base
     def doctor_date_avaiable?(doctor, date, duration)
       array_appt = Appointment.all.select {|appt| appt.doctor_id == doctor.id}
       array_appt.each do |appt|
-        if Time.parse(date).to_i >= (appt.date).to_i and Time.parse(date).to_i <= (appt.date).to_i + duration.hours
+        if date.to_i >= (appt.date).to_i and date.to_i <= (appt.date).to_i + duration.hours
           return false
         end
         # if date > "17:00" and date < "09:00"
@@ -24,7 +24,7 @@ class Patient < ActiveRecord::Base
       end
       true
     end
-
+    #date is already a timed parsed
     def add_appointment(doctor, date, duration = 1.0, note = "")
       if doctor_date_avaiable?(doctor, date, duration)
         Appointment.create(doctor_id: doctor.id, patient_id: self.id, date: date, note: note, duration: duration)
@@ -35,8 +35,8 @@ class Patient < ActiveRecord::Base
 
     def update_appointment(doctor, old_date, new_date, duration = 1.0, note = "")
       if doctor_date_avaiable?(doctor, new_date, duration)
-        temp = Appointment.find_by(doctor_id: doctor.id, patient_id: self.id, date: Time.parse(old_date))
-        temp.update(date: Time.parse(new_date).to_i)
+        temp = Appointment.find_by(doctor_id: doctor.id, patient_id: self.id, date: old_date)
+        temp.update(date: new_date.to_i)
       else
         puts "Doctor is unavaiable at this time!"
       end

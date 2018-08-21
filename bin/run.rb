@@ -10,19 +10,33 @@ def welcome
   puts "Please enter your full name"
 end
 
+def help
+  puts "help - will give you choices of available commands"
+  puts "*WIP* view - will see all of the current patient appointments"
+  puts "create - will create a new patient"
+  puts "update - will update an existing patient's appointment"
+  puts "*WIP* remove - will remove the existing patient's appointment"
+  puts "-----------------------------------------"
+end
+
 old_logger = ActiveRecord::Base.logger
 #turn off debug
-# ActiveRecord::Base.logger = nil
+ActiveRecord::Base.logger = nil
 #turn on debug
-ActiveRecord::Base.logger = old_logger
+#ActiveRecord::Base.logger = old_logger
 
-# welcome
+welcome
+help
 # user_input = gets.chomp
 # patient = Patient.find_patient(user_input)
 # puts patient.full_name
 
 felix = Patient.find_patient("felix chan")
 surezud = Doctor.find_doctor("surezud zud")
+
+# puts enter a date
+# user_input = gets.chomp
+# date = Time.parse(user_input)
 
 
 binding.pry
