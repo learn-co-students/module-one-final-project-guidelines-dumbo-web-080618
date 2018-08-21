@@ -16,6 +16,7 @@ def help
   puts "create - will create a new patient"
   puts "update - will update an existing patient's appointment"
   puts "*WIP* remove - will remove the existing patient's appointment"
+  puts "exit - exit this program"
   puts "-----------------------------------------"
 end
 
@@ -24,9 +25,6 @@ old_logger = ActiveRecord::Base.logger
 ActiveRecord::Base.logger = nil
 #turn on debug
 #ActiveRecord::Base.logger = old_logger
-
-welcome
-help
 # user_input = gets.chomp
 # patient = Patient.find_patient(user_input)
 # puts patient.full_name
@@ -41,6 +39,22 @@ appt1 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/03/20
 # user_input = gets.chomp
 # date = Time.parse(user_input)
 
+def run
+  welcome
+  help
+  loop do
+    user_input = gets.chomp
+    case user_input
+    when "help"
+      help
+    when "exit"
+      exit
+    else
+      "wrong input"
+    end
+  end
+end
 
+run
 binding.pry
 0
