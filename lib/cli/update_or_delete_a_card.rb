@@ -52,7 +52,7 @@ def update_card(user)
       question.topic = new_topic
       puts "The topic has been updated"
       question.save
-      user = update_user
+      user = update_user(user)
       return
 
     elsif change == "2"
@@ -61,7 +61,7 @@ def update_card(user)
       question.question = new_question
       puts "The question has been updated"
       question.save
-      user = update_user
+      user = update_user(user)
       return
 
     elsif change == "3"
@@ -70,7 +70,7 @@ def update_card(user)
       question.answer = new_snwer
       puts "The answer has been updated"
       question.save
-      user = update_user
+      user = update_user(user)
       return
     else
       puts "Please choose a valid option"
