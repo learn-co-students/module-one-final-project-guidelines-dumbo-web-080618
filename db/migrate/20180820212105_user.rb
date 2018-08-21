@@ -7,7 +7,7 @@ class User < ActiveRecord::Migration[5.0]
       t.string :party
       t.timestamps
     end
+  end
     #should I include a donation column with and id to track all user donations?
     #if i have a donations table I should be able to keep track of all user donations there
-  end
 end
