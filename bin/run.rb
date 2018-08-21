@@ -12,7 +12,7 @@ answer = main_menu
   when 2
     make_a_new_card(user)
   when 3
-    puts "Answer was #{answer}"
+    update_or_delete_a_card(user)
   when 4
     puts "Goodbye #{user.name}"
   else

@@ -33,22 +33,5 @@ end
 
 
 def update_card(user)
-  
+
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-update_or_delete_a_card("user")
