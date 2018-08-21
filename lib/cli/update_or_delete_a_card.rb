@@ -52,6 +52,7 @@ def update_card(user)
       question.update(topic: new_topic)
       puts "The topic has been updated"
       question.save
+      questions = user.questions
 
     elsif change == "2"
       puts "What is the new question?"
@@ -59,6 +60,7 @@ def update_card(user)
       question.update(question: new_question)
       puts "The question has been updated"
       question.save
+      questions = user.questions
 
     elsif change == "3"
       puts "What is the new answer?"
@@ -66,6 +68,7 @@ def update_card(user)
       question.update(answer: new_answer)
       puts "The answer has been updated"
       question.save
+      questions = user.questions
     end
 
 end
