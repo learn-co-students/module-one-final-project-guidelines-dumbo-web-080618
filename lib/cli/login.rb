@@ -1,4 +1,4 @@
-def welcome
+def login
   puts "Welcome to the Learning Zone. What's your name?"
   name = gets.chomp
   user = User.find_or_create_by_name(name)
