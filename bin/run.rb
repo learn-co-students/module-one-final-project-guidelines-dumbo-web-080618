@@ -10,13 +10,23 @@ def welcome
   puts "Please enter your full name"
 end
 
+def help
+  puts "help - will give you choices of available commands"
+  puts "*WIP* view - will see all of the current patient appointments"
+  puts "create - will create a new patient"
+  puts "update - will update an existing patient's appointment"
+  puts "*WIP* remove - will remove the existing patient's appointment"
+  puts "-----------------------------------------"
+end
+
 old_logger = ActiveRecord::Base.logger
 #turn off debug
-# ActiveRecord::Base.logger = nil
+ActiveRecord::Base.logger = nil
 #turn on debug
-ActiveRecord::Base.logger = old_logger
+#ActiveRecord::Base.logger = old_logger
 
-# welcome
+welcome
+help
 # user_input = gets.chomp
 # patient = Patient.find_patient(user_input)
 # puts patient.full_name
@@ -24,9 +34,10 @@ ActiveRecord::Base.logger = old_logger
 felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
 otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
 
-sherzod = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m",specialties:"urologist")
-appt1 = Appointment.create(doctor_id:sherzod.id,patient_id:felix.id, date:"08/20/2018 14:00",duration:1,note:"")
-appt2 = Appointment.create(doctor_id:sherzod.id,patient_id:otash.id, date:"08/20/2018 15:00",duration:1,note:"")
+# puts enter a date
+# user_input = gets.chomp
+# date = Time.parse(user_input)
+
 
 binding.pry
 0
