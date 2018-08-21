@@ -1,4 +1,5 @@
 def review(user)
+  # binding.pry
   answer = my_options
   case answer
   when 1
@@ -11,15 +12,28 @@ def review(user)
     "Invalid Entry"
     answer = my_options
   end
+end
+
+
+def topic_review(user)
+  topics = user.questions.map{|question| question.topic}
+  my_topic = nil
+  until topics.include?(my_topic) do
+    puts "Topics to be reviewed are..."
+    topics.each{|topic|
+    puts "#{topic}"}
+    my_topic = gets.chomp
+  end
+  on_topic_questions = user.questions.select{|question| question.topic == my_topic}
+  # on_topic_questions.map{|e| e.question.question}
+  puts "The question is #{on_topic_questions.sample.question}"
 
 end
 
-def topic_review(choice)
-  puts "Topic to be reviewed is..."
-end
-
-def random_review(choice)
-  "Random question is..."
+def random_review(user)
+  puts "Random question is..."
+  puts user.questions.sample
+  binding.pry
 end
 
 def my_options
