@@ -87,28 +87,27 @@ end
 def delete_card(user)
   user = update_user(user)
   questions = user.questions
-  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}"}
   puts "Please choose a question to delete from your deck"
   puts "Type 'exit' to exit"
+  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}"}
 
 
 
-  q_id = gets.chomp.to_i
-  if q_id != "exit"
+  q_id = gets.chomp
+  while q_id != "exit"
+    if q_id != "exit" && (questions.find{|question| question.id == q_id.to_i} != nil)
 
-    question = Question.find(q_id)
+      question = Question.find(q_id.to_i)
 
-    deck = Deck.find_by(user_id: user.id, question_id: question.id)
+      deck = Deck.find_by(user_id: user.id, question_id: question.id)
 
-    Deck.destroy(deck.id)
-
-   elsif q_id == "exit"
-     return
-   else
-     puts "Please enter a valid choice"
-     q_id = gets.chomp.to_i
-   end
-
+      Deck.destroy(deck.id)
+      return
+     else
+       puts "Please enter a valid choice"
+       q_id = gets.chomp
+     end
+  end
 
 
 end
