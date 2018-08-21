@@ -33,6 +33,9 @@ help
 
 felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
 otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
+sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
+appt = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/02/2018 03:00")
+appt1 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/03/2018 05:00")
 
 # puts enter a date
 # user_input = gets.chomp
