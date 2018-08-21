@@ -49,7 +49,7 @@ def update_card(user)
     if change == "1"
       puts "What is the new topic?"
       new_topic = gets.chomp
-      question.update(topic: new_topic)
+      question.topic = new_topic
       puts "The topic has been updated"
       question.save
       return
