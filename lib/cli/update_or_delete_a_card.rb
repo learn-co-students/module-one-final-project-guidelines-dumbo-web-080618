@@ -74,8 +74,7 @@ def update_card(user)
       puts "The answer has been updated"
       question.save
       return
-    elsif condition
-      change == "4"
+    elsif change == "4"
       return
     else
       puts "Please choose a valid option"
