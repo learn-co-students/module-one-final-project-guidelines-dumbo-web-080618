@@ -7,7 +7,7 @@ class CreateShoes < ActiveRecord::Migration[5.2]
       t.string :item_id
       t.string :model
       t.string :style
-      t.integer :MSRP
+      t.integer :msrp
     end
   end
 end
