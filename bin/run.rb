@@ -1,11 +1,11 @@
 require 'pry'
 require_relative '../config/environment'
-
+over = false
 user = login
 # x = user.add_a_question("Animals", "What animal eats bugs by pecking wood?", "Wood Pecker")
 # binding.pry
-
-answer = main_menu
+while !over
+  answer = main_menu
   case answer
   when 1
     review(user)
@@ -15,9 +15,13 @@ answer = main_menu
     puts "Answer was #{answer}"
   when 4
     puts "Goodbye #{user.name}"
+    over = true
   else
     puts "Invalid answer."
     answer = main_menu
   end
+end
+
+
 binding.pry
 puts "HELLO WORLD"

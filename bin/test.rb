@@ -2,8 +2,6 @@ require 'pry'
 
 over = false
 
-
-
 def menu
   puts "Menu options are..."
   puts "(1) Do something"
