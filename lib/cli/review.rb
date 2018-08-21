@@ -55,11 +55,21 @@ def my_options
 end
 
 def check_answer(user, correct_answer, answer)
-  until correct_answer == answer
+  tries = 1
+  until (correct_answer == answer || (answer == 'x' && tries > 5) || tries > 10)  
     puts "You are wrong!"
-    answer = gets
+    tries += 1
+    if tries > 5
+      puts "Enter 'x' to exit."
+    end
+    answer = gets.chomp
   end
-  puts "You are correct, #{user.name}"
+  if tries < 5
+    puts "You are correct, #{user.name}"
+  else
+    puts "The correct answer was '#{correct_answer}'!"
+  end
+  
   # if correct_answer == answer
   #   puts "You are correct, #{user.name}"
   #   right = true

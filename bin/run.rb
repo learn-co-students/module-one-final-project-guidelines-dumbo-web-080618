@@ -21,7 +21,3 @@ while !over
     answer = main_menu
   end
 end
-
-
-binding.pry
-puts "HELLO WORLD"
