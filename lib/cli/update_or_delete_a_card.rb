@@ -52,13 +52,12 @@ def update_card(user)
       question.topic = new_topic
       puts "The topic has been updated"
       question.save
-      binding.pry
       return
 
     elsif change == "2"
       puts "What is the new question?"
       new_question = gets.chomp
-      question.update(question: new_question)
+      question.question = new_question
       puts "The question has been updated"
       question.save
       return
@@ -66,10 +65,13 @@ def update_card(user)
     elsif change == "3"
       puts "What is the new answer?"
       new_answer = gets.chomp
-      question.update(answer: new_answer)
+      question.answer = new_snwer
       puts "The answer has been updated"
       question.save
       return
+    else
+      puts "Please choose a valid option"
+      change = gets.chomp
     end
 
 end
