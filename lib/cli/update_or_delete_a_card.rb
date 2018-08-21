@@ -52,6 +52,7 @@ def update_card(user)
       question.topic = new_topic
       puts "The topic has been updated"
       question.save
+      binding.pry
       return
 
     elsif change == "2"
