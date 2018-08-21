@@ -5,7 +5,14 @@ def make_a_new_card(user)
 
   choice = gets.chomp
 
-  while choice != "2"
+  if choice == "2"
+    return
+  elsif choice != "1" && choice != "2"
+    puts "Please give a valid choice"
+    make_a_new_card(user)
+  end
+
+  while choice == "1"
     puts "Make a new card. Please provide a topic"
     topic = gets.chomp
     puts "Topic is #{topic}. What is the Question you would like it add?"
@@ -20,4 +27,7 @@ def make_a_new_card(user)
     puts "Would you like to (1) add another question or (2) go back to main menu?"
     choice = gets.chomp
   end
+
+
+
 end
