@@ -1,6 +1,9 @@
 
 
 def review(user)
+  if user.questions.empty?
+    return puts "You have no questions or decks"
+  end
   # binding.pry
   answer = my_options
   case answer
@@ -66,7 +69,7 @@ end
 
 def check_answer(user, correct_answer, answer)
   tries = 1
-  until (correct_answer == answer || (answer == 'x' && tries > 5) || tries > 10)  
+  until (correct_answer == answer || (answer == 'x' && tries > 5) || tries > 10)
     puts "You are wrong!"
     tries += 1
     if tries > 5
@@ -79,7 +82,7 @@ def check_answer(user, correct_answer, answer)
   else
     puts "The correct answer was '#{correct_answer}'!"
   end
-  
+
   # if correct_answer == answer
   #   puts "You are correct, #{user.name}"
   #   right = true

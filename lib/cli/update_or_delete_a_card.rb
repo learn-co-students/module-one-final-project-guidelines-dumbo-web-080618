@@ -3,6 +3,11 @@ def update_or_delete_a_card(user)
   # puts "(1) Update an existing Question"
   # puts "(2) Delete a Question from your deck"
   # puts "(3) Go back to Main Menu"
+
+  if user.questions.empty?
+    return puts "You have no questions"
+  end
+
   menu
   choice = nil
   choice = gets.chomp
@@ -39,7 +44,8 @@ def update_card(user)
   puts "Please choose a question ID you want to update"
   q_id = gets.chomp.to_i
 
-  question = Question.find(q_id)
+if (questions.find{|question| question.id == q_id.to_i} != nil)
+  question = Question.find(q_id.to_i)
 
   puts "What would you like to update"
   puts "(1) The Topic: #{question.topic}"
@@ -80,6 +86,10 @@ def update_card(user)
       puts "Please choose a valid option"
       change = gets.chomp
     end
+  else
+    puts "Please choose a correct id"
+    update_card(user)
+  end
 
 end
 
@@ -89,7 +99,7 @@ def delete_card(user)
   questions = user.questions
   puts "Please choose a question to delete from your deck"
   puts "Type 'exit' to exit"
-  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}"}
+  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer} Topic: #{question.topic}"}
 
 
 

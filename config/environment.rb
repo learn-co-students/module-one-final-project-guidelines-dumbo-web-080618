@@ -1,4 +1,5 @@
 require 'bundler'
+require 'base64'
 Bundler.require
 
 ActiveRecord::Base.logger = nil
