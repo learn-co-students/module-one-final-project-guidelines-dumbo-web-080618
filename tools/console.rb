@@ -4,7 +4,7 @@ require_relative '../models/legislator.rb'
 require_relative '../models/user.rb'
 require 'pry'
 
-
+  Legislator.all
 
 binding.pry
 0
