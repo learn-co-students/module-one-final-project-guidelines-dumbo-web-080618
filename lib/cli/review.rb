@@ -25,7 +25,6 @@ def topic_review(user)
     my_topic = gets.chomp
   end
   on_topic_questions = user.questions.select{|question| question.topic == my_topic}
-  # on_topic_questions.map{|e| e.question.question}
   random = on_topic_questions.sample
   rand_quest = random.question
   rand_answer = random.answer
