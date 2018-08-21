@@ -7,7 +7,7 @@ def review(user)
   when 2
     random_review(user)
   when 3
-    "Going back to main menu"
+    return
   else
     "Invalid Entry"
     answer = my_options
@@ -26,13 +26,22 @@ def topic_review(user)
   end
   on_topic_questions = user.questions.select{|question| question.topic == my_topic}
   # on_topic_questions.map{|e| e.question.question}
-  puts "The question is #{on_topic_questions.sample.question}"
-
+  random = on_topic_questions.sample
+  rand_quest = random.question
+  rand_answer = random.answer
+  puts "The Question is: #{rand_quest}?"
+  answer = gets.chomp
+  check_answer(user, rand_answer, answer)
 end
 
 def random_review(user)
   puts "Random question is..."
-  puts user.questions.sample
+  random =  user.questions.sample
+  rand_question = random.question
+  rand_answer = random.answer
+  puts rand_question
+  answer = gets.chomp
+  check_answer(user, rand_answer, answer)
   binding.pry
 end
 
@@ -42,4 +51,12 @@ def my_options
   puts "(2) Review at Random"
   puts "(3) Exit"
   answer = gets.chomp.to_i
+end
+
+def check_answer(user, correct_answer, answer)
+  if correct_answer == answer
+    puts "You are correct, #{user.name}"
+  else
+    puts "You are wrong!"
+  end
 end

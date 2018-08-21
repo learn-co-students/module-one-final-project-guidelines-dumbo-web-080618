@@ -13,9 +13,11 @@ answer = main_menu
     make_a_new_card(user)
   when 3
     puts "Answer was #{answer}"
+  when 4
+    puts "Goodbye #{user.name}"
   else
     puts "Invalid answer."
     answer = main_menu
   end
-# binding.pry
+binding.pry
 puts "HELLO WORLD"
