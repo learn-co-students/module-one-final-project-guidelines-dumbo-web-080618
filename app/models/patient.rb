@@ -37,6 +37,7 @@ class Patient < ActiveRecord::Base
       if doctor_date_avaiable?(doctor, new_date, duration)
         temp = Appointment.find_by(doctor_id: doctor.id, patient_id: self.id, date: old_date)
         temp.update(date: new_date.to_i)
+        puts "Time has been updated!"
       else
         puts "Doctor is unavaiable at this time!"
       end
@@ -63,7 +64,7 @@ class Patient < ActiveRecord::Base
       if temp != nil
         temp.destroy
       else
-        puts "Error: there either no doctor of that obj or the inputed date is not removable"
+        puts "Error: there either no doctor of that obj or the inputed date is already removed"
       end
     end
 
