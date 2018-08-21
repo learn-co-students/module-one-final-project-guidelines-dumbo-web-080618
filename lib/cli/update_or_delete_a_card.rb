@@ -51,7 +51,6 @@ def update_card(user)
       new_topic = gets.chomp
       question.update(topic: new_topic)
       puts "The topic has been updated"
-
     elsif change == "2"
       puts "What is the new question?"
       new_question = gets.chomp
