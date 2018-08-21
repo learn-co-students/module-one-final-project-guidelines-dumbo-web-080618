@@ -44,6 +44,10 @@ def run
     case user_input
     when "help"
       help
+    when "create"
+      create
+    when "update"
+      update
     when "exit"
       exit
     else
