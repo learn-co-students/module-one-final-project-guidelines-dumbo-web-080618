@@ -21,9 +21,12 @@ ActiveRecord::Base.logger = old_logger
 # patient = Patient.find_patient(user_input)
 # puts patient.full_name
 
-felix = Patient.find_patient("felix chan")
-surezud = Doctor.find_doctor("surezud zud")
+felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
+otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
 
+sherzod = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m",specialties:"urologist")
+appt1 = Appointment.create(doctor_id:sherzod.id,patient_id:felix.id, date:"08/20/2018 14:00",duration:1,note:"")
+appt2 = Appointment.create(doctor_id:sherzod.id,patient_id:otash.id, date:"08/20/2018 15:00",duration:1,note:"")
 
 binding.pry
 0
