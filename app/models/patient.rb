@@ -42,4 +42,13 @@ class Patient < ActiveRecord::Base
       end
     end
 
+    def remove_appointment(doctor, date)
+      temp = Appointment.find_by(doctor_id: doctor.id, patient_id: self.id, date: date)
+      if temp == nil
+        temp.destroy
+      else
+        puts "Error: there either no doctor of that obj or the inputed date is not removable"
+      end
+    end
+
 end
