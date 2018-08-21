@@ -42,6 +42,22 @@ class Patient < ActiveRecord::Base
       end
     end
 
+
+    def view
+     list_appts = Appointment.all.select do |appt_obj|
+        appt_obj.patient_id == self.id
+      end
+
+      list_appts.each do |appt_obj|
+        id1 = appt_obj.doctor_id
+        f_doc = Doctor.find_by(id:id1)
+        puts "Doctor name: #{f_doc.full_name}"
+        puts "appointment date: #{appt_obj.date}"
+        puts "-------------------------------------------"
+      end
+    end
+
+
     def remove_appointment(doctor, date)
       temp = Appointment.find_by(doctor_id: doctor.id, patient_id: self.id, date: date)
       if temp == nil
