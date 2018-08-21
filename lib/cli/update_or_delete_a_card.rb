@@ -86,8 +86,9 @@ def delete_card(user)
   question = Question.find(q_id)
 
   deck = Deck.find_by(user_id: user.id, question_id: question.id)
-  
+
   Deck.destroy(deck.id)
+  return
 
 end
 
