@@ -33,6 +33,7 @@ end
 
 
 def update_card(user)
+  user = update_user(user)
   questions = user.questions
   questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}, Topic #{question.topic}"}
   puts "Please choose a question ID you want to update"
@@ -44,33 +45,37 @@ def update_card(user)
   puts "(1) The Topic: #{question.topic}"
   puts "(2) The Question: #{question.question}"
   puts "(3) The Answer: #{question.answer}"
+  puts "(4) Exit"
     change = gets.chomp
 
     if change == "1"
+      user = update_user(user)
       puts "What is the new topic?"
       new_topic = gets.chomp
       question.topic = new_topic
       puts "The topic has been updated"
       question.save
-      user = update_user(user)
       return
 
     elsif change == "2"
+      user = update_user(user)
       puts "What is the new question?"
       new_question = gets.chomp
       question.question = new_question
       puts "The question has been updated"
       question.save
-      user = update_user(user)
       return
 
     elsif change == "3"
+      user = update_user(user)
       puts "What is the new answer?"
       new_answer = gets.chomp
       question.answer = new_snwer
       puts "The answer has been updated"
       question.save
-      user = update_user(user)
+      return
+    elsif condition
+      change == "4"
       return
     else
       puts "Please choose a valid option"
