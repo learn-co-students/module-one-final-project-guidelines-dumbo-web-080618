@@ -1,4 +1,4 @@
 class Stock < ActiveRecord::Base
-  belongs_to :sneaker
+  belongs_to :shoe
   belongs_to :store
 end
