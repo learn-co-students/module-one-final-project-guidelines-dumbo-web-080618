@@ -18,6 +18,7 @@ def login
 end
 
 def login_account
+  clear_screen
   puts "What is your Username?"
     username = gets.chomp
 

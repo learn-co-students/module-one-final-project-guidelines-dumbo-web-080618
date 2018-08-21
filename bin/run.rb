@@ -1,7 +1,10 @@
 require 'pry'
 require_relative '../config/environment'
+clear_screen
 over = false
 user = login
+clear_screen
+
 # x = user.add_a_question("Animals", "What animal eats bugs by pecking wood?", "Wood Pecker")
 # binding.pry
 while !over

@@ -1,6 +1,7 @@
 
 
 def review(user)
+  clear_screen
   if user.questions.empty?
     return puts "You have no questions or decks"
   end
@@ -21,19 +22,22 @@ end
 
 
 def topic_review(user)
+  clear_screen
   # user = update_user(user)
   topics = user.questions.map{|question| question.topic}.uniq
   my_topic = nil
   until topics.include?(my_topic) do
-    puts "Topics to be reviewed are..."
+    puts "Choose a topic to review"
     topics.each{|topic|
     puts "#{topic}"}
     my_topic = gets.chomp
+    clear_screen
   end
 
   on_topic_questions = user.questions.select{|question| question.topic == my_topic}.shuffle
 
   until on_topic_questions.size <= 0
+    clear_screen
     random = on_topic_questions.pop
     rand_quest = random.question
     rand_answer = random.answer
@@ -44,6 +48,7 @@ def topic_review(user)
 end
 
 def random_review(user)
+  clear_screen
   # user = update_user(user)
   puts "Random question is..."
   random_questions = user.questions.shuffle
@@ -60,6 +65,7 @@ def random_review(user)
 end
 
 def my_options
+  clear_screen
   puts "Would you like to do"
   puts "(1) Review by Topic or"
   puts "(2) Review at Random"
@@ -68,6 +74,7 @@ def my_options
 end
 
 def check_answer(user, correct_answer, answer)
+  clear_screen
   tries = 1
   until (correct_answer == answer || (answer == 'x' && tries > 5) || tries > 10)
     puts "You are wrong!"
@@ -76,6 +83,7 @@ def check_answer(user, correct_answer, answer)
       puts "Enter 'x' to exit."
     end
     answer = gets.chomp
+    clear_screen
   end
   if tries < 5
     puts "You are correct, #{user.name}"
