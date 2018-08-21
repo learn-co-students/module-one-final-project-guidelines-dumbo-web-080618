@@ -1,3 +1,5 @@
+
+
 def review(user)
   # binding.pry
   answer = my_options
@@ -41,7 +43,7 @@ def random_review(user)
   puts rand_question
   answer = gets.chomp
   check_answer(user, rand_answer, answer)
-  binding.pry
+  # binding.pry
 end
 
 def my_options
@@ -53,9 +55,15 @@ def my_options
 end
 
 def check_answer(user, correct_answer, answer)
-  if correct_answer == answer
-    puts "You are correct, #{user.name}"
-  else
+  until correct_answer == answer
     puts "You are wrong!"
+    answer = gets
   end
+  puts "You are correct, #{user.name}"
+  # if correct_answer == answer
+  #   puts "You are correct, #{user.name}"
+  #   right = true
+  # else
+  #   puts "You are wrong!"
+  # end
 end

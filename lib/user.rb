@@ -27,6 +27,6 @@ class User < ActiveRecord::Base
     else
       Deck.find_or_create(self.id, q.id, q.topic)
     end
-    
   end
+
 end
