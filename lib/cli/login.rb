@@ -1,7 +1,8 @@
+
 def login
-  puts "Welcome to the Learning Zone. Do you have an account?"
-  puts "(1) Yes, I would like to log-in"
-  puts "(2) No, I would like to create an account"
+  puts "Welcome to the Learning Zone. Do you have an account?".colorize(:yellow)
+  puts "(1) Yes, I would like to log-in".colorize(:cyan)
+  puts "(2) No, I would like to create an account".colorize(:cyan)
     input = gets.chomp
 
     if input == "1"
@@ -20,22 +21,22 @@ def login
 end
 
 def login_account
-  puts "What is your Username?"
+  puts "What is your Username?".colorize(:yellow)
     username = gets.chomp
 
     if User.find_by(name: username) != nil
       user = User.find_by(name: username)
-        puts "What is your Password"
+        puts "What is your Password ?".colorize(:yellow)
         password = gets.chomp
           if Base64.encode64(password) == user.password
             return user
           else
             clear_screen
-            puts "Invalid Username or Password. Please try again"
+            puts "Invalid Username or Password. Please try again".colorize(:red)
             login_account
           end
     else
-      puts "The account name does not exist. Please try again"
+      puts "The account name does not exist. Please try again".colorize(:red)
       login_account
     end
 

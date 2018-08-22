@@ -1,5 +1,7 @@
 require 'pry'
 require_relative '../config/environment'
+require 'colorize'
+
 clear_screen
 over = false
 user = login
@@ -20,7 +22,7 @@ while !over
     puts "Goodbye #{user.name}"
     over = true
   else
-    puts "Invalid answer."
+    puts "Invalid answer.".colorize(:red)
     answer = main_menu
   end
 end

@@ -5,7 +5,7 @@ def update_or_delete_a_card(user)
   # puts "(3) Go back to Main Menu"
 clear_screen
   if user.questions.empty?
-    return puts "You have no questions"
+    return puts "You have no questions".colorize(:red)
   end
 
   menu
@@ -22,7 +22,7 @@ clear_screen
       menu
       choice = gets.chomp
     else
-      puts "Please pick a valid choice"
+      puts "Please pick a valid choice".colorize(:red)
       choice = gets.chomp
     end
   end
@@ -31,10 +31,10 @@ end
 
 
 def menu
-  puts "What would you like to do?"
-  puts "(1) Update an existing Question"
-  puts "(2) Delete a Question from your deck"
-  puts "(3) Go back to Main Menu"
+  puts "What would you like to do?".colorize(:yellow)
+  puts "(1) Update an existing Question".colorize(:cyan)
+  puts "(2) Delete a Question from your deck".colorize(:cyan)
+  puts "(3) Go back to Main Menu".colorize(:red)
 end
 
 
@@ -42,62 +42,62 @@ def update_card(user)
   clear_screen
   user = update_user(user)
   questions = user.questions
-  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}, Topic #{question.topic}"}
-  puts "Please choose a question ID you want to update"
+  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}, Topic #{question.topic}".colorize(:white)}
+  puts "Please choose a question ID you want to update".colorize(:yellow)
   q_id = gets.chomp.to_i
 
 if (questions.find{|question| question.id == q_id.to_i} != nil)
   question = Question.find(q_id.to_i)
   clear_screen
   puts "What would you like to update"
-  puts "(1) The Topic: #{question.topic}"
-  puts "(2) The Question: #{question.question}"
-  puts "(3) The Answer: #{question.answer}"
-  puts "(4) Exit"
+  puts "(1) The Topic: #{question.topic}".colorize(:white)
+  puts "(2) The Question: #{question.question}".colorize(:white)
+  puts "(3) The Answer: #{question.answer}".colorize(:white)
+  puts "(4) Exit".colorize(:red)
     change = gets.chomp
 
     if change == "1"
       clear_screen
       user = update_user(user)
-      puts "What is the new topic?"
+      puts "What is the new topic?".colorize(:yellow)
       new_topic = gets.chomp
       question.topic = new_topic
       clear_screen
-      puts "The topic has been updated"
+      puts "The topic has been updated".colorize(:cyan)
       question.save
       return
 
     elsif change == "2"
       clear_screen
       user = update_user(user)
-      puts "What is the new question?"
+      puts "What is the new question?".colorize(:yellow)
       new_question = gets.chomp
       question.question = new_question
       clear_screen
-      puts "The question has been updated"
+      puts "The question has been updated".colorize(:cyan)
       question.save
       return
 
     elsif change == "3"
       clear_screen
       user = update_user(user)
-      puts "What is the new answer?"
+      puts "What is the new answer?".colorize(:yellow)
       new_answer = gets.chomp
       question.answer = new_answer
       clear_screen
-      puts "The answer has been updated"
+      puts "The answer has been updated".colorize(:cyan)
       question.save
       return
     elsif change == "4"
       clear_screen
       return
     else
-      puts "Please choose a valid option"
+      puts "Please choose a valid option".colorize(:red)
       change = gets.chomp
     end
   else
     clear_screen
-    puts "Please choose a correct id"
+    puts "Please choose a correct id".colorize(:red)
     update_card(user)
   end
 
@@ -108,9 +108,9 @@ def delete_card(user)
   clear_screen
   user = update_user(user)
   questions = user.questions
-  puts "Please choose a question to delete from your deck"
-  puts "Type 'exit' to exit"
-  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer} Topic: #{question.topic}"}
+  puts "Please choose a question to delete from your deck".colorize(:yellow)
+  puts "Type 'exit' to exit".colorize(:red)
+  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer} Topic: #{question.topic}".colorize(:white)}
 
 
 
