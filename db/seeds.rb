@@ -9,6 +9,7 @@ legislators = CSV.read(path);
 
 legislators = legislators.slice(1..legislators.length)
 
+Legislator.destroy_all #destroy anything in the database to avoid duplicates
 legislators.each do |legislator|
   legislator_hash = {
     :last_name => legislator[0],

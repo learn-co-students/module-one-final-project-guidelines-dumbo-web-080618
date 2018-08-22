@@ -1,3 +1,32 @@
 class Legislator < ActiveRecord::Base
+  has_many :users
+  has_many :donations
 
+
+  def self.find_by_state(state)
+    senators = Legislator.all.select {|legislator| legislator.title =='sen'}
+    senators.find(state: state)
+  end
+
+  def self.find_senator_or_houseRep(searchfor)
+    searchfor = searchfor.slice(0,3)
+    Legislator.all.select {|legislator| legislator.title == searchfor}
+  end
+
+  def full_name
+    full_name = ''
+    Legislator.all.each do |rep|
+      if rep.id == self.id
+        full_name = "#{rep.first_name} #{rep.last_name}"
+      end
+    end
+    full_name
+  end
+
+  def self.find_phone_number(legislator_name)
+    # phone_number = ''
+    # Legislator.all.each do {|legislator| legislator.}
+    # phone_number
+  end
 end
+0
