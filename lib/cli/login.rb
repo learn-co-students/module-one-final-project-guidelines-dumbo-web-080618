@@ -1,16 +1,17 @@
 
 def login
   logo
-  puts "Welcome to the Learning Zone. Do you have an account?".colorize(:yellow)
-  puts "(1) Yes, I would like to log-in".colorize(:cyan)
-  puts "(2) No, I would like to create an account".colorize(:cyan)
-    input = gets.chomp
+  # puts "Welcome to the Learning Zone. Do you have an account?".colorize(:yellow)
+  # puts "(1) Yes, I would like to log-in".colorize(:cyan)
+  # puts "(2) No, I would like to create an account".colorize(:cyan)
 
-    if input == "1"
+    input = prompt.yes?("Do you have an account?")
+
+    if input == true
       clear_screen
       logo
       login_account
-    elsif input == "2"
+    elsif input == false
       clear_screen
       logo
       create_account
@@ -35,6 +36,7 @@ def login_account
             return user
           else
             clear_screen
+            logo
             puts "Invalid Username or Password. Please try again".colorize(:red)
             login_account
           end

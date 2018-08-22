@@ -34,7 +34,7 @@ def topic_review(user)
     puts "Choose a topic to review".colorize(:yellow)
     topics.each{|topic|
     puts "#{topic}"}
-    my_topic = gets.chomp
+    my_topic = prompt.ask('What topic would you like to review?')
     clear_screen
     logo
   end
@@ -48,8 +48,8 @@ def topic_review(user)
     rand_quest = random.question
     rand_answer = random.answer
     puts "The Question is: #{rand_quest}?".colorize(:yellow)
-    answer = gets.chomp
-    check_answer(user, rand_answer, answer)
+    answer = prompt.ask("The Question is: #{rand_quest}?")
+    check_answer(user, correct_answer, answer, rand_question)
   end
 end
 
@@ -57,7 +57,7 @@ def random_review(user)
   clear_screen
   logo
   # user = update_user(user)
-  puts "Random question is...".colorize(:cyan)
+  puts "Random question:".colorize(:cyan)
   random_questions = user.questions.shuffle
   # random =  user.questions.shuffle.pop
   until random_questions.size <= 0
@@ -65,8 +65,8 @@ def random_review(user)
     rand_question = random.question
     rand_answer = random.answer
     puts rand_question.colorize(:yellow)
-    answer = gets.chomp
-    check_answer(user, rand_answer, answer)
+    answer = prompt.ask("What is your answer")
+    check_answer(user, rand_answer, answer, rand_question)
   end
   # binding.pry
 end
@@ -74,18 +74,26 @@ end
 def my_options
   clear_screen
   logo
-  puts "Would you like to do ?".colorize(:yellow)
-  puts "(1) Review by Topic or".colorize(:cyan)
-  puts "(2) Review at Random".colorize(:cyan)
-  puts "(3) Exit".colorize(:red)
-  answer = gets.chomp.to_i
+  # puts "Would you like to do ?".colorize(:yellow)
+  # puts "(1) Review by Topic or".colorize(:cyan)
+  # puts "(2) Review at Random".colorize(:cyan)
+  # puts "(3) Exit".colorize(:red)
+  # answer = gets.chomp.to_i
+  prompt.select("What would like to do?") do |menu|
+    menu.choice 'Review by Topic', 1
+    menu.choice 'Review at Random', 2
+    menu.choice 'Exit', 3
+  end
 end
 
-def check_answer(user, correct_answer, answer)
+def check_answer(user, correct_answer, answer, rand_question)
 
   tries = 1
   until (correct_answer == answer || (answer == 'x' && tries > 5) || tries > 10)
-    puts "You are wrong!".colorize(:red)
+    clear_screen
+    logo
+    puts "Incorrect, please try again!".colorize(:red)
+    puts "Question: " + rand_question
     tries += 1
     if tries > 5
       puts "Enter 'x' to exit.".colorize(:red)
@@ -98,8 +106,11 @@ def check_answer(user, correct_answer, answer)
     logo
     puts "You are correct, #{user.name}".colorize(:green)
   else
+    clear_screen
+    logo
     puts "The correct answer was '#{correct_answer}'!".colorize(:green)
   end
+
 
   # if correct_answer == answer
   #   puts "You are correct, #{user.name}"
