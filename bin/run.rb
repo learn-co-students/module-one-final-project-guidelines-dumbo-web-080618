@@ -17,22 +17,16 @@ def random_weather_condition
 end
 
 def access_menu
-  menu = main_menu
-  case menu
-  when 'exit'
-    'hi'
-  else
-    activity_menu(menu)
-  end
-end
-
-def access_alt
-  alt = access_menu
-  case alt
-  when 'end'
-    'hi'
-  else
-    activity_menu(alt)
+  alt = main_menu
+  loop do
+    case alt
+    when 'end'
+      clear_screen
+      puts "Thank you for visiting Better Weather CLI!"
+      break
+    else
+      alt = activity_menu(alt)
+    end
   end
 end
 
@@ -46,7 +40,8 @@ def main_menu
     Welcome to Better Weather CLI!
     Today's weather calls for #{current_weather.condition}.") do |menu|
     menu.choice 'activity', current_weather
-    menu.choice 'exit', 'exit'
+    menu.choice 'end', 'end'
+    clear_screen
   end
 end
 
@@ -56,10 +51,11 @@ def activity_menu(current_weather)
   prompt.select("Today's weather is perfect for #{random_activity.sample}.") do |menu|
     menu.choice 'different suggestion', current_weather
     menu.choice 'end', 'end'
+    clear_screen
   end
 end
 
-access_alt
+access_menu
 # Weather.first.weather_activities
 # Weather.all_weather_types
 # binding.pry
