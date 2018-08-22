@@ -4,18 +4,20 @@ require_relative '../app/models/doctor.rb'
 require_relative '../app/models/patient.rb'
 
 def welcome
-  puts "Hello welcome to the App"
-  puts "Please enter your full name"
+  puts "Hello, welcome to the"
+  puts "<<<<Appointments>>>>"
+  #puts "Please enter your full name"
 end
 
 def help
+  puts "Please see the commands below:"
   puts "--------------------------------------------------------"
-  puts "help - will give you choices of available commands"
-  puts "view - will see all of the current patient appointments"
-  puts "create - will create an appointment"
-  puts "update - will update an existing patient's appointment"
-  puts "remove - will remove the existing patient's appointment"
-  puts "exit - exit this program"
+  puts "HELP   - will give you choices of available commands"
+  puts "VIEW   - will see all of the current patient appointments"
+  puts "CREATE - will create an appointment"
+  puts "UPDATE - will update an existing patient's appointment"
+  puts "REMOVE - will remove the existing patient's appointment"
+  puts "EXIT   - exit this program"
   puts "--------------------------------------------------------"
 end
 
@@ -29,12 +31,14 @@ ActiveRecord::Base.logger = nil
 # puts patient.full_name
 
 # felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
+#felix = Patient.find_by(first_name:"felix")#,last_name:"chan",gender:"f")
 # otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
-# sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
-# appt = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/02/2018 03:00")
-# appt1 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "01/03/2018 05:00")
+#sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
+#sher = Doctor.find_by(first_name:"sherzod")
 # vidim = Doctor.create(first_name:"vadim",last_name:"avnilov",gender:"bm", specialties:"gynaecologist")
-
+ #appt2 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "02/02/2018 09:00",duration:1)
+# appt1 = Appointment.create(doctor_id:vidim.id,patient_id:felix.id,date: "01/03/2018 05:00",duration:1)
+#
 
 # puts enter a date
 # user_input = gets.chomp
@@ -105,12 +109,13 @@ def update
     # doctor = prompt.ask('Which doctor you want to change an appointment with?')
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
 
-    list_all_name = Appointment.all.select{|e| e.patient == pname and e.doctor == pdoctor}
+    list_all_name = Appointment.all.select{|e| e.patient_id == pname.id and e.doctor_id == pdoctor.id}
     list_all_time = list_all_name.map {|e| e.date}
     patient_map_time = {}
     for i in 0..list_all_time.length-1
       patient_map_time[list_all_time[i]] = list_all_time[i]
     end
+    #binding.pry
     begin
       old_time = prompt.select('What appointment do you like to update?', patient_map_time)
     rescue
@@ -147,24 +152,26 @@ def remove
 end
 
 def run
+  system "clear" or system "cls"
   prompt = TTY::Prompt.new
   welcome
   help
   #name = prompt.ask('What is your full name?')
   loop do
-    input = prompt.select("Choose your choice?", %w(Help View Create Update Remove Exit))
+
+    input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT))
     case input
-    when "Help"
+    when "HELP"
       help
-    when "View"
+    when "VIEW"
       view
-    when "Create"
+    when "CREATE"
       create
-    when "Update"
+    when "UPDATE"
       update
-    when "Remove"
+    when "REMOVE"
       remove
-    when "Exit"
+    when "EXIT"
       exit
     else
       "wrong input"
