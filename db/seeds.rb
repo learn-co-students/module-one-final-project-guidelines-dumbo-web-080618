@@ -26,8 +26,8 @@ legislators.each do |legislator|
   Legislator.create(legislator_hash)
 end
 
-User.destroy_all
 
+User.destroy_all
 50.times do |index|
   User.create!(name: Faker::Name.name, age: Faker::Number.between(18, 89), gender: Faker::Boolean.boolean, party: Faker::Boolean.boolean)
 end
