@@ -53,7 +53,8 @@ def create_account
   puts "Please choose a Username"
   username = gets.chomp
     if User.find_by(name: username) != nil
-      puts "That username already exists."
+      clear_screen
+      puts "That username already exists. Please chooser a different username"
       create_account
     end
   puts "Please choose a password"

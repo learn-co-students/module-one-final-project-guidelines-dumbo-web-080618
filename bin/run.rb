@@ -8,7 +8,7 @@ clear_screen
 # x = user.add_a_question("Animals", "What animal eats bugs by pecking wood?", "Wood Pecker")
 # binding.pry
 while !over
-  answer = main_menu
+  answer = main_menu(user)
   case answer
   when 1
     review(user)
@@ -21,6 +21,6 @@ while !over
     over = true
   else
     puts "Invalid answer."
-    answer = main_menu
+    answer = main_menu(user)
   end
 end

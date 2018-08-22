@@ -1,5 +1,5 @@
-def main_menu
-  puts "Welcome! What would like to do"
+def main_menu(user)
+  puts "Welcome #{user.name}! What would like to do"
   puts "(1) Pick a topic to review"
   puts "(2) Make a new card"
   puts "(3) Update or delete a card"
