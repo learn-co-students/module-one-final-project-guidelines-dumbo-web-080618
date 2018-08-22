@@ -10,7 +10,8 @@ require_relative '../config/environment'
 #create done viewing command option
 #when they are done viewing that representative ask if they would like to
 #find someone else or donate to that legislator
-#chose where to continue browsing or quit
+#choose where to continue browsing or quit
+
 Legislator.find_by('Sherrod Brown')
 
 
