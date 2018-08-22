@@ -1,5 +1,6 @@
 def make_a_new_card(user)
   clear_screen
+  logo
   puts "Welcome #{user.name}. What would you like to do?".colorize(:yellow)
   puts "(1) Add a new card".colorize(:cyan)
   puts "(2) Go back to Main Menu".colorize(:red)
@@ -8,15 +9,18 @@ def make_a_new_card(user)
 
   if choice == "2"
     clear_screen
+    logo
     return
   elsif choice != "1" && choice != "2"
     clear_screen
+    logo
     puts "Please give a valid choice".colorize(:red)
     make_a_new_card(user)
   end
 
   while choice == "1"
     clear_screen
+    logo
     puts "Make a new card. Please provide a topic".colorize(:cyan)
     topic = gets.chomp
     puts "Topic is #{topic}. What is the Question you would like it add?".colorize(:yellow)
@@ -27,6 +31,7 @@ def make_a_new_card(user)
     user.find_or_create_question(topic, question, answer)
 
     clear_screen
+    logo
 
     puts "The question card has been added to your deck with the topic: #{topic}.".colorize(:red)
     puts "Would you like to do?".colorize(:yellow)
@@ -35,7 +40,8 @@ def make_a_new_card(user)
     choice = gets.chomp
 
   end
-clear_screen
+  clear_screen
+  logo
 
 
 end

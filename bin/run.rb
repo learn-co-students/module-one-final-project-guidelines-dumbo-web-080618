@@ -6,6 +6,7 @@ clear_screen
 over = false
 user = login
 clear_screen
+logo
 
 # x = user.add_a_question("Animals", "What animal eats bugs by pecking wood?", "Wood Pecker")
 # binding.pry

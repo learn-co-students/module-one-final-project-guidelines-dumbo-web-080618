@@ -3,7 +3,8 @@ def update_or_delete_a_card(user)
   # puts "(1) Update an existing Question"
   # puts "(2) Delete a Question from your deck"
   # puts "(3) Go back to Main Menu"
-clear_screen
+  clear_screen
+  logo
   if user.questions.empty?
     return puts "You have no questions".colorize(:red)
   end
@@ -27,6 +28,7 @@ clear_screen
     end
   end
   clear_screen
+  logo
 end
 
 
@@ -40,6 +42,7 @@ end
 
 def update_card(user)
   clear_screen
+  logo
   user = update_user(user)
   questions = user.questions
   questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}, Topic #{question.topic}".colorize(:white)}
@@ -49,6 +52,7 @@ def update_card(user)
 if (questions.find{|question| question.id == q_id.to_i} != nil)
   question = Question.find(q_id.to_i)
   clear_screen
+  logo
   puts "What would you like to update"
   puts "(1) The Topic: #{question.topic}".colorize(:white)
   puts "(2) The Question: #{question.question}".colorize(:white)
@@ -58,38 +62,45 @@ if (questions.find{|question| question.id == q_id.to_i} != nil)
 
     if change == "1"
       clear_screen
+      logo
       user = update_user(user)
       puts "What is the new topic?".colorize(:yellow)
       new_topic = gets.chomp
       question.topic = new_topic
       clear_screen
+      logo
       puts "The topic has been updated".colorize(:cyan)
       question.save
       return
 
     elsif change == "2"
       clear_screen
+      logo
       user = update_user(user)
       puts "What is the new question?".colorize(:yellow)
       new_question = gets.chomp
       question.question = new_question
       clear_screen
+      logo
       puts "The question has been updated".colorize(:cyan)
       question.save
       return
 
     elsif change == "3"
       clear_screen
+      logo
       user = update_user(user)
       puts "What is the new answer?".colorize(:yellow)
       new_answer = gets.chomp
       question.answer = new_answer
       clear_screen
+      logo
       puts "The answer has been updated".colorize(:cyan)
       question.save
       return
     elsif change == "4"
       clear_screen
+      logo
       return
     else
       puts "Please choose a valid option".colorize(:red)
@@ -97,6 +108,7 @@ if (questions.find{|question| question.id == q_id.to_i} != nil)
     end
   else
     clear_screen
+    logo
     puts "Please choose a correct id".colorize(:red)
     update_card(user)
   end
@@ -106,6 +118,7 @@ end
 
 def delete_card(user)
   clear_screen
+  logo
   user = update_user(user)
   questions = user.questions
   puts "Please choose a question to delete from your deck".colorize(:yellow)
@@ -116,6 +129,7 @@ def delete_card(user)
 
   q_id = gets.chomp
   clear_screen
+  logo
   while q_id != "exit"
     if q_id != "exit" && (questions.find{|question| question.id == q_id.to_i} != nil)
 
@@ -125,6 +139,7 @@ def delete_card(user)
 
       Deck.destroy(deck.id)
       clear_screen
+      logo
       return
      else
        puts "Please enter a valid choice"
@@ -132,6 +147,7 @@ def delete_card(user)
      end
   end
   clear_screen
+  logo
 
 end
 

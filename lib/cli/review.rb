@@ -2,6 +2,7 @@
 
 def review(user)
   clear_screen
+  logo
   if user.questions.empty?
     return puts "You have no questions or decks".colorize(:red)
   end
@@ -14,6 +15,7 @@ def review(user)
     random_review(user)
   when 3
     clear_screen
+    logo
     return
   else
     "Invalid Entry".colorize(:red)
@@ -24,6 +26,7 @@ end
 
 def topic_review(user)
   clear_screen
+  logo
   # user = update_user(user)
   topics = user.questions.map{|question| question.topic}.uniq
   my_topic = nil
@@ -33,12 +36,14 @@ def topic_review(user)
     puts "#{topic}"}
     my_topic = gets.chomp
     clear_screen
+    logo
   end
 
   on_topic_questions = user.questions.select{|question| question.topic == my_topic}.shuffle
 
   until on_topic_questions.size <= 0
     clear_screen
+    logo
     random = on_topic_questions.pop
     rand_quest = random.question
     rand_answer = random.answer
@@ -50,6 +55,7 @@ end
 
 def random_review(user)
   clear_screen
+  logo
   # user = update_user(user)
   puts "Random question is...".colorize(:cyan)
   random_questions = user.questions.shuffle
@@ -67,6 +73,7 @@ end
 
 def my_options
   clear_screen
+  logo
   puts "Would you like to do ?".colorize(:yellow)
   puts "(1) Review by Topic or".colorize(:cyan)
   puts "(2) Review at Random".colorize(:cyan)
@@ -88,6 +95,7 @@ def check_answer(user, correct_answer, answer)
   end
   if tries < 5
     clear_screen
+    logo
     puts "You are correct, #{user.name}".colorize(:green)
   else
     puts "The correct answer was '#{correct_answer}'!".colorize(:green)

@@ -1,5 +1,6 @@
 
 def login
+  logo
   puts "Welcome to the Learning Zone. Do you have an account?".colorize(:yellow)
   puts "(1) Yes, I would like to log-in".colorize(:cyan)
   puts "(2) No, I would like to create an account".colorize(:cyan)
@@ -7,9 +8,11 @@ def login
 
     if input == "1"
       clear_screen
+      logo
       login_account
     elsif input == "2"
       clear_screen
+      logo
       create_account
     end
 
@@ -55,6 +58,7 @@ def create_account
   username = gets.chomp
     if User.find_by(name: username) != nil
       clear_screen
+      logo
       puts "That username already exists. Please chooser a different username"
       create_account
     end
