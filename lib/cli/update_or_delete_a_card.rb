@@ -134,7 +134,6 @@ def delete_card(user)
   clear_screen
   logo
   while q_id != "exit" && questions.count > 0
-    binding.pry
     if q_id != "exit" && (questions.find{|question| question.id == q_id.to_i} != nil)
 
       question = Question.find(q_id.to_i)

@@ -12,5 +12,6 @@ def main_menu(user)
     menu.choice 'Make a new card', 2
     menu.choice 'Update or delete a card', 3
     menu.choice 'Exit', 4
+    menu.choice 'Testing', 0
   end
 end

@@ -49,7 +49,7 @@ def topic_review(user)
     rand_answer = random.answer
     puts "The Question is: #{rand_quest}?".colorize(:yellow)
     answer = prompt.ask("The Question is: #{rand_quest}?")
-    check_answer(user, correct_answer, answer, rand_question)
+    check_answer(user, rand_answer, answer, rand_quest)
   end
 end
 

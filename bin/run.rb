@@ -22,6 +22,8 @@ while !over
   when 4
     puts "Goodbye #{user.name}".colorize(:green)
     over = true
+  when 0
+    puts "User stats\nName: #{user.name}\nTotal Questions Taken: #{user.total_taken}\nTotal Answered Correctly: #{user.total_correct}\n& #{user.get_percentage}"
   else
     puts "Invalid answer.".colorize(:red)
     answer = main_menu(user)

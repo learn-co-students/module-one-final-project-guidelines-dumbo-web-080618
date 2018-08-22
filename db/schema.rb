@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_20_201645) do
+ActiveRecord::Schema.define(version: 2018_08_22_203515) do
 
   create_table "decks", force: :cascade do |t|
     t.integer "user_id"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 2018_08_20_201645) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "password"
+    t.integer "total_taken", default: 0
+    t.integer "total_correct", default: 0
   end
 
 end
