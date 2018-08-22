@@ -16,6 +16,17 @@ def random_weather_condition
   Weather.all_weather_types.sample
 end
 
+def access_activity_menu
+  menu = main_menu
+  case menu
+  when 'exit'
+    'hi'
+  else
+    activity_menu(menu)
+  end
+end
+
+
 
 def main_menu
   prompt = TTY::Prompt.new
@@ -24,18 +35,22 @@ def main_menu
     Can't think of something to do today?
     Welcome to Better Weather CLI!
     Today's weather calls for #{current_weather.condition}.") do |menu|
-    menu.choice 'activity', activity_menu(current_weather)
-    menu.choice 'exit'
+    menu.choice 'activity', current_weather
+    menu.choice 'exit', "exit"
   end
 end
 
 def activity_menu(current_weather)
-  binding.pry
   prompt = TTY::Prompt.new
-  prompt.select("Today's weather is perfect for #{}")
+  random_activity = current_weather.weather_activities
+  prompt.select("Today's weather is perfect for #{random_activity.sample}.") do |menu|
+    menu.choice 'different suggestion'
+    menu.choice 'end'
+  end
 end
-#
-main_menu
+
+access_activity_menu
+# Weather.first.weather_activities
 # Weather.all_weather_types
 # binding.pry
 # 0

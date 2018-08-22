@@ -6,15 +6,11 @@ class Weather < ActiveRecord::Base
   def self.all_weather_types
     Weather.all.map do |weather|
       weather
-      #Weather Objects
     end
   end
 
-  # def self.weather_type
-  #   Weather.all_weather_types.map do |weather|
-  #     weather.condition
-  #     #Weather Condition/Strings
-  #   end
-  # end
+  def weather_activities
+    self.activities.map{|activity| activity.title}
+  end
 
 end
