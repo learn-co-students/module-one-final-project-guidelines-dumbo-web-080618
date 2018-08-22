@@ -30,8 +30,8 @@ def login_account
 
     if User.find_by(name: username) != nil
       user = User.find_by(name: username)
-        puts "What is your Password ?".colorize(:yellow)
-        password = gets.chomp
+      password = prompt.mask('What is your Password?')
+
           if Base64.encode64(password) == user.password
             return user
           else

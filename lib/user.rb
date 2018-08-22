@@ -10,6 +10,17 @@ class User < ActiveRecord::Base
     end
   end
 
+  def answered_question
+    taken = self.total_taken + 1
+    self.update_attribute(:total_taken, taken)
+  end
+
+  def was_correct
+    answered_question
+    correct = self.total_correct + 1
+    self.update_attribute(:total_correct, correct)
+  end
+
   def get_percentage
     "#{(self.total_correct/self.total_taken.to_f)*100.0}% of questions answered are correct!!"
   end

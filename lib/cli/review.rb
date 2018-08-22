@@ -104,10 +104,12 @@ def check_answer(user, correct_answer, answer, rand_question)
   if tries < 5
     clear_screen
     logo
+    user.was_correct
     puts "You are correct, #{user.name}".colorize(:green)
   else
     clear_screen
     logo
+    user.answered_question
     puts "The correct answer was '#{correct_answer}'!".colorize(:green)
   end
 

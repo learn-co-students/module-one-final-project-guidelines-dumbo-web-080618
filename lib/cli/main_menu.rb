@@ -11,7 +11,8 @@ def main_menu(user)
     menu.choice 'Pick a topic to review', 1
     menu.choice 'Make a new card', 2
     menu.choice 'Update or delete a card', 3
+    menu.choice 'User Stats', 5
     menu.choice 'Exit', 4
-    menu.choice 'Testing', 0
+
   end
 end
