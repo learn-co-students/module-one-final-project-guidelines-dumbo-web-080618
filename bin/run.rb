@@ -30,7 +30,6 @@ puts"  .-.
  ('.|
   |._)
   '-'"
-  #puts "Please enter your full name"
 end
 
 def help
@@ -50,10 +49,6 @@ old_logger = ActiveRecord::Base.logger
 ActiveRecord::Base.logger = nil
 #turn on debug
 #ActiveRecord::Base.logger = old_logger
-# user_input = gets.chomp
-# patient = Patient.find_patient(user_input)
-# puts patient.full_name
-
 # felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
 #felix = Patient.find_by(first_name:"felix")#,last_name:"chan",gender:"f")
 # otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
@@ -184,6 +179,37 @@ def remove
   end
 end
 
+def create_doc
+  prompt = TTY::Prompt.new
+  begin
+    name = prompt.ask('What is your full name? (first and last name)')
+    splited_name = name.split(" ")
+    gender = prompt.ask('What is your gender?')
+    special = prompt.ask('What is your specialty?')
+    Doctor.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender,specialties:special)
+
+    puts "The doctor has been added!"
+  rescue
+    puts "Yep something went wrong in create_doc dunno where..."
+    binding.pry
+  end
+end
+
+def create_pat
+  prompt = TTY::Prompt.new
+  begin
+    name = prompt.ask('What is your full name? (first and last name)')
+    splited_name = name.split(" ")
+    gender = prompt.ask('What is your gender?')
+    Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
+
+    puts "The patient has been added!"
+  rescue
+    puts "Yep something went wrong in create_pat dunno where..."
+    binding.pry
+  end
+end
+
 def run
   system "clear" or system "cls"
   prompt = TTY::Prompt.new
@@ -193,7 +219,7 @@ def run
   #name = prompt.ask('What is your full name?')
   loop do
 
-    input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT))
+    input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT CREATE_DOC CREATE_PAT))
     case input
     when "HELP"
       help
@@ -205,6 +231,10 @@ def run
       update
     when "REMOVE"
       remove
+    when "CREATE_DOC"
+      create_doc
+    when "CREATE_PAT"
+      create_pat
     when "EXIT"
       exit
     else
