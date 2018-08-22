@@ -5,8 +5,10 @@ def login
     input = gets.chomp
 
     if input == "1"
+      clear_screen
       login_account
     elsif input == "2"
+      clear_screen
       create_account
     end
 
@@ -18,7 +20,6 @@ def login
 end
 
 def login_account
-  clear_screen
   puts "What is your Username?"
     username = gets.chomp
 
@@ -29,6 +30,7 @@ def login_account
           if Base64.encode64(password) == user.password
             return user
           else
+            clear_screen
             puts "Invalid Username or Password. Please try again"
             login_account
           end
