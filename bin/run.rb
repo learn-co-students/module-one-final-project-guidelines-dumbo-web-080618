@@ -19,10 +19,10 @@ while !over
   when 3
     update_or_delete_a_card(user)
   when 4
-    puts "Goodbye #{user.name}"
+    puts "Goodbye #{user.name}".colorize(:green)
     over = true
   else
-    puts "Invalid answer."
+    puts "Invalid answer.".colorize(:red)
     answer = main_menu(user)
   end
 end
