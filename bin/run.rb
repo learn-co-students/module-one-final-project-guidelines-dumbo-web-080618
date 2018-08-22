@@ -1,12 +1,24 @@
 require_relative '../config/environment'
-require_relative '../app/models/appointment.rb'
-require_relative '../app/models/doctor.rb'
-require_relative '../app/models/patient.rb'
-require_relative '../app/models/credential.rb'
+# require_relative '../app/models/appointment.rb'
+# require_relative '../app/models/doctor.rb'
+# require_relative '../app/models/patient.rb'
+# require_relative '../app/models/credential.rb'
 require 'colorize'
 def welcome
   puts "Hello, welcome to the"
-  puts"  .-.
+  # puts" _____  _  _____ "
+  # puts"(___  \\( )/  ___)"
+  # puts"  (___ | | ___)  "
+  # puts'     /"| ("\     '
+  # puts"    ( (| |) )    "
+  # puts"     `.!' .'     "
+  # puts"      / .'\\      "
+  # puts"      \\|/ /      "
+  # puts"       /.<       "
+  # puts"      (| |)      "
+  # puts"       | '       "
+  # puts"       `-'       "
+puts"  .-.
  (   )  ___
  -| |-'`   '-._,
  -| |-.      .'
@@ -47,39 +59,30 @@ ActiveRecord::Base.logger = nil
 #sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
 #sher = Doctor.find_by(first_name:"sherzod")
 # vidim = Doctor.create(first_name:"vadim",last_name:"avnilov",gender:"bm", specialties:"gynaecologist")
-# appt2 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "02/02/2018 09:00",duration:1)
+ #appt2 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "02/02/2018 09:00",duration:1)
 # appt1 = Appointment.create(doctor_id:vidim.id,patient_id:felix.id,date: "01/03/2018 05:00",duration:1)
+#
 
-def view
+# puts enter a date
+# user_input = gets.chomp
+# date = Time.parse(user_input)
+def view(name)
   prompt = TTY::Prompt.new
+  #user_input1 = prompt.ask("Please enter your full name:")
   begin
-
-    user_input1 = prompt.ask("Please enter your full name:")
-    begin
-      f_patient = Patient.find_patient(user_input1)
-      f_patient.view
-    rescue
-      puts "Given name does not exsist"
-      return
-    end
-
+    f_patient = Patient.find_patient(name)
+    f_patient.view
   rescue
-    puts "Yep something went wrong in view dunno where..."
-    binding.pry
+    puts "Given name does not exsist"
+    return
   end
 end
 
-def create
+def create(name)
   prompt = TTY::Prompt.new
   begin
-    p_full_name = prompt.ask("Please enter your full name:")
-    f_patient = Patient.find_patient(p_full_name)
-    if f_patient == nil
-      puts "no patient by this name!!!!!!!"
-      return
-    end
+    f_patient = Patient.find_patient(name)
     doctor = prompt.select("Choose your doctor", map_of_doctors)
-
     puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     begin
       date = prompt.ask("Please enter appointment date:", convert: :datetime)
@@ -89,7 +92,6 @@ def create
       puts "bad time yoh!"
       puts "enter better!!!"
     end
-
   rescue
     puts "Yep something went wrong in create dunno where..."
     binding.pry
@@ -116,15 +118,10 @@ def map_of_times(name, doctor)
   patient_map_time
 end
 
-def update
+def update(name)
   prompt = TTY::Prompt.new
   begin
-    name = prompt.ask('What is your full name?')
     pname = Patient.find_patient(name)
-    if pname == nil
-      puts "patient name does not exist"
-      return
-    end
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
 
     begin
@@ -151,20 +148,13 @@ def update
   end
 end
 
-def remove
+def remove(name)
   prompt = TTY::Prompt.new
+  #
   begin
-    name = prompt.ask('What is your full name?')
     patient = Patient.find_patient(name)
-    if patient == nil
-      puts "no patient by this name!!!!!!!"
-      return
-    end
     doctor = prompt.select("Choose your doctor", map_of_doctors)
-
-    # puts "dates are in this DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     time = prompt.select('What appointment do you like to update?', map_of_times(patient, doctor))
-
     patient.remove_appointment(doctor, time)
     puts "The appointment has been removed!"
   rescue
@@ -209,17 +199,20 @@ def create_pat
 end
 
 def front_page
+  temp = nil
   prompt = TTY::Prompt.new
-  input = prompt.select("Please choose your command?", %w(LOGIN CREATE_USER))
+  input = prompt.select("Please choose your command?", %w(LOGIN CREATE_USER EXIT))
   case input
   when "LOGIN"
-    login
+    temp = login
   when "CREATE_USER"
-    create_user
+    temp = create_user
+  when "EXIT"
+    exit
   else
     puts "Wrong input"
   end
-
+  temp
 end
 
 def login
@@ -228,46 +221,75 @@ def login
   user_name = prompt.ask('Please enter username:')
   user_password = prompt.ask('Please enter password:')
 
-  cred1 = Credential.find_by(username:user_name,password:user_password)
-  #cred1.admin?
-  if cred1 == nil
-    puts "Incorrect username or password"
+  begin
+    cred1 = Credential.find_by(username:user_name,password:user_password)
+    Patient.find_by(id:cred1.other_id)
+  rescue
+    system "clear"
+    welcome
+    print "ERROR:".colorize(:color => :white,:background => :red)
+    puts "Incorrect username or password".colorize(:color => :red)
     return
   end
-
 end
 
 def create_user
   prompt = TTY::Prompt.new
-  user = create_pat
-  user_name = prompt.ask('Please enter username:')
-  user_password = prompt.ask('Please enter password:')
-
-  Credential.create(username:user_name,password:user_password,admin?:false,other_id:user.id)
+  user = nil
+  loop do
+    puts "Input quit to exit"
+    user_name = prompt.ask('Please enter username:')
+    if user_name == "quit"
+      puts "returning to login screen"
+      return
+    end
+    if !Credential.find_by(username:user_name)
+      user_password1 = prompt.mask('Please enter password:')
+      user_password2 = prompt.mask('Please enter password again:')
+      if user_password1 == user_password2
+        user = create_pat
+        Credential.create(username:user_name,password:user_password1,admin?:false,other_id:user.id)
+        break
+      else
+        puts "password did not match"
+      end
+    else
+      system "clear"
+      welcome
+      print "ERROR:".colorize(:color => :white,:background => :red)
+      puts " Username have been taken".colorize(:color => :red)
+    end
+  end
+  Patient.find_by(id:user.id)
 end
 
 def run
-  system "clear" or system "cls"
   prompt = TTY::Prompt.new
   system "clear"
   welcome
-  name = front_page
+
+  user = nil
+  while user == nil
+    user = front_page
+  end
+  name = user.full_name
+
+  system "clear"
+  welcome
   help
-
   loop do
-
     input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT CREATE_DOC CREATE_PAT))
     case input
     when "HELP"
-      help(name)
+      help
     when "VIEW"
-      view
+      view(name)
     when "CREATE"
-      create
+      create(name)
     when "UPDATE"
-      update
+      update(name)
     when "REMOVE"
-      remove
+      remove(name)
     when "CREATE_DOC"
       create_doc
     when "CREATE_PAT"
