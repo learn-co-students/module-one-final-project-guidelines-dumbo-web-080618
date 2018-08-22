@@ -66,36 +66,23 @@ ActiveRecord::Base.logger = nil
 # puts enter a date
 # user_input = gets.chomp
 # date = Time.parse(user_input)
-def view
+def view(name)
   prompt = TTY::Prompt.new
+  #user_input1 = prompt.ask("Please enter your full name:")
   begin
-
-    user_input1 = prompt.ask("Please enter your full name:")
-    begin
-      f_patient = Patient.find_patient(user_input1)
-      f_patient.view
-    rescue
-      puts "Given name does not exsist"
-      return
-    end
-
+    f_patient = Patient.find_patient(name)
+    f_patient.view
   rescue
-    puts "Yep something went wrong in view dunno where..."
-    binding.pry
+    puts "Given name does not exsist"
+    return
   end
 end
 
-def create
+def create(name)
   prompt = TTY::Prompt.new
   begin
-    p_full_name = prompt.ask("Please enter your full name:")
-    f_patient = Patient.find_patient(p_full_name)
-    if f_patient == nil
-      puts "no patient by this name!!!!!!!"
-      return
-    end
+    f_patient = Patient.find_patient(name)
     doctor = prompt.select("Choose your doctor", map_of_doctors)
-
     puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     begin
       date = prompt.ask("Please enter appointment date:", convert: :datetime)
@@ -105,7 +92,6 @@ def create
       puts "bad time yoh!"
       puts "enter better!!!"
     end
-
   rescue
     puts "Yep something went wrong in create dunno where..."
     binding.pry
@@ -132,16 +118,10 @@ def map_of_times(name, doctor)
   patient_map_time
 end
 
-def update
+def update(name)
   prompt = TTY::Prompt.new
   begin
-    name = prompt.ask('What is your full name?')
     pname = Patient.find_patient(name)
-    if pname == nil
-      puts "patient name does not exist"
-      return
-    end
-    # doctor = prompt.ask('Which doctor you want to change an appointment with?')
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
 
     begin
@@ -168,20 +148,12 @@ def update
   end
 end
 
-def remove
+def remove(name)
   prompt = TTY::Prompt.new
   begin
-    name = prompt.ask('What is your full name?')
     patient = Patient.find_patient(name)
-    if patient == nil
-      puts "no patient by this name!!!!!!!"
-      return
-    end
     doctor = prompt.select("Choose your doctor", map_of_doctors)
-
-    # puts "dates are in this DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     time = prompt.select('What appointment do you like to update?', map_of_times(patient, doctor))
-
     patient.remove_appointment(doctor, time)
     puts "The appointment has been removed!"
   rescue
@@ -226,16 +198,18 @@ def create_pat
 end
 
 def front_page
+  temp = nil
   prompt = TTY::Prompt.new
   input = prompt.select("Please choose your command?", %w(LOGIN CREATE_USER))
   case input
   when "LOGIN"
-    login
+    temp = login
   when "CREATE_USER"
-    create_user
+    temp = create_user
   else
     puts "Wrong input"
   end
+  temp
 end
 
 def login
@@ -250,7 +224,7 @@ def login
     puts "Incorrect username or password"
     return
   end
-
+  Patient.find_by(id:cred1.other_id)
 end
 
 def create_user
@@ -258,8 +232,8 @@ def create_user
   user = create_pat
   user_name = prompt.ask('Please enter username:')
   user_password = prompt.ask('Please enter password:')
-
   Credential.create(username:user_name,password:user_password,admin?:false,other_id:user.id)
+  Patient.find_by(id:user.id)
 end
 
 def run
@@ -267,7 +241,7 @@ def run
   prompt = TTY::Prompt.new
   system "clear"
   welcome
-  front_page
+  name = front_page.full_name
   help
 
   loop do
@@ -277,13 +251,13 @@ def run
     when "HELP"
       help
     when "VIEW"
-      view
+      view(name)
     when "CREATE"
-      create
+      create(name)
     when "UPDATE"
-      update
+      update(name)
     when "REMOVE"
-      remove
+      remove(name)
     when "CREATE_DOC"
       create_doc
     when "CREATE_PAT"
