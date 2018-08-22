@@ -5,7 +5,7 @@ def current_time
 
   if time.hour >= 00 && time.hour < 12
     puts "Good Morning!"
-  elsif time.hour >= 12 && time.hour < 5
+  elsif time.hour >= 12 && time.hour < 17
     puts "Good Afternoon!"
   else
     puts "Good Evening!"
@@ -16,13 +16,23 @@ def random_weather_condition
   Weather.all_weather_types.sample
 end
 
-def access_activity_menu
+def access_menu
   menu = main_menu
   case menu
   when 'exit'
     'hi'
   else
     activity_menu(menu)
+  end
+end
+
+def access_alt
+  alt = access_menu
+  case alt
+  when 'end'
+    'hi'
+  else
+    activity_menu(alt)
   end
 end
 
@@ -36,7 +46,7 @@ def main_menu
     Welcome to Better Weather CLI!
     Today's weather calls for #{current_weather.condition}.") do |menu|
     menu.choice 'activity', current_weather
-    menu.choice 'exit', "exit"
+    menu.choice 'exit', 'exit'
   end
 end
 
@@ -44,12 +54,12 @@ def activity_menu(current_weather)
   prompt = TTY::Prompt.new
   random_activity = current_weather.weather_activities
   prompt.select("Today's weather is perfect for #{random_activity.sample}.") do |menu|
-    menu.choice 'different suggestion'
-    menu.choice 'end'
+    menu.choice 'different suggestion', current_weather
+    menu.choice 'end', 'end'
   end
 end
 
-access_activity_menu
+access_alt
 # Weather.first.weather_activities
 # Weather.all_weather_types
 # binding.pry
@@ -96,9 +106,3 @@ access_activity_menu
 #_________________________________________________________________
 #Thank you for visiting Better Weather CLI!
 #_________________________________________________________________
-
-
-
-
-#4th - help or 'h' - pulls up list of commands to help
-#         -What would these commands be***** should there even be help?
