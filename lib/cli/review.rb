@@ -13,6 +13,7 @@ def review(user)
   when 2
     random_review(user)
   when 3
+    clear_screen
     return
   else
     "Invalid Entry"
@@ -74,7 +75,7 @@ def my_options
 end
 
 def check_answer(user, correct_answer, answer)
-  clear_screen
+
   tries = 1
   until (correct_answer == answer || (answer == 'x' && tries > 5) || tries > 10)
     puts "You are wrong!"
@@ -83,9 +84,10 @@ def check_answer(user, correct_answer, answer)
       puts "Enter 'x' to exit."
     end
     answer = gets.chomp
-    clear_screen
+
   end
   if tries < 5
+    clear_screen
     puts "You are correct, #{user.name}"
   else
     puts "The correct answer was '#{correct_answer}'!"

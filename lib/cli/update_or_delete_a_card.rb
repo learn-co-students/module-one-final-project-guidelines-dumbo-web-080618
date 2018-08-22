@@ -3,7 +3,7 @@ def update_or_delete_a_card(user)
   # puts "(1) Update an existing Question"
   # puts "(2) Delete a Question from your deck"
   # puts "(3) Go back to Main Menu"
-
+clear_screen
   if user.questions.empty?
     return puts "You have no questions"
   end
@@ -26,6 +26,7 @@ def update_or_delete_a_card(user)
       choice = gets.chomp
     end
   end
+  clear_screen
 end
 
 
@@ -38,6 +39,7 @@ end
 
 
 def update_card(user)
+  clear_screen
   user = update_user(user)
   questions = user.questions
   questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}, Topic #{question.topic}"}
@@ -46,7 +48,7 @@ def update_card(user)
 
 if (questions.find{|question| question.id == q_id.to_i} != nil)
   question = Question.find(q_id.to_i)
-
+  clear_screen
   puts "What would you like to update"
   puts "(1) The Topic: #{question.topic}"
   puts "(2) The Question: #{question.question}"
@@ -55,38 +57,46 @@ if (questions.find{|question| question.id == q_id.to_i} != nil)
     change = gets.chomp
 
     if change == "1"
+      clear_screen
       user = update_user(user)
       puts "What is the new topic?"
       new_topic = gets.chomp
       question.topic = new_topic
+      clear_screen
       puts "The topic has been updated"
       question.save
       return
 
     elsif change == "2"
+      clear_screen
       user = update_user(user)
       puts "What is the new question?"
       new_question = gets.chomp
       question.question = new_question
+      clear_screen
       puts "The question has been updated"
       question.save
       return
 
     elsif change == "3"
+      clear_screen
       user = update_user(user)
       puts "What is the new answer?"
       new_answer = gets.chomp
-      question.answer = new_snwer
+      question.answer = new_answer
+      clear_screen
       puts "The answer has been updated"
       question.save
       return
     elsif change == "4"
+      clear_screen
       return
     else
       puts "Please choose a valid option"
       change = gets.chomp
     end
   else
+    clear_screen
     puts "Please choose a correct id"
     update_card(user)
   end
@@ -95,6 +105,7 @@ end
 
 
 def delete_card(user)
+  clear_screen
   user = update_user(user)
   questions = user.questions
   puts "Please choose a question to delete from your deck"
@@ -104,6 +115,7 @@ def delete_card(user)
 
 
   q_id = gets.chomp
+  clear_screen
   while q_id != "exit"
     if q_id != "exit" && (questions.find{|question| question.id == q_id.to_i} != nil)
 
@@ -112,13 +124,14 @@ def delete_card(user)
       deck = Deck.find_by(user_id: user.id, question_id: question.id)
 
       Deck.destroy(deck.id)
+      clear_screen
       return
      else
        puts "Please enter a valid choice"
        q_id = gets.chomp
      end
   end
-
+  clear_screen
 
 end
 
