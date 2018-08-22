@@ -5,7 +5,6 @@ class CreateCredentials < ActiveRecord::Migration[4.2]
       t.string :password
       t.boolean :admin?
       t.integer :other_id
-      # t.string :password
     end
   end
 end
