@@ -5,7 +5,31 @@ require_relative '../app/models/patient.rb'
 require 'colorize'
 def welcome
   puts "Hello, welcome to the"
-  puts "<<<<Appointments>>>>"
+  # puts" _____  _  _____ "
+  # puts"(___  \\( )/  ___)"
+  # puts"  (___ | | ___)  "
+  # puts'     /"| ("\     '
+  # puts"    ( (| |) )    "
+  # puts"     `.!' .'     "
+  # puts"      / .'\\      "
+  # puts"      \\|/ /      "
+  # puts"       /.<       "
+  # puts"      (| |)      "
+  # puts"       | '       "
+  # puts"       `-'       "
+puts"  .-.
+ (   )  ___
+ -| |-'`   '-._,
+ -| |-.      .'
+  |.') `~~~~`
+ (_.|  _____             _     _                 _
+  |._)|  _  |___ ___ ___|_|___| |_ _____ ___ ___| |_ ___
+  |.')|     | . | . | . | |   |  _|     | -_|   |  _|_ -|
+ (_.| |__|__|  _|  _|___|_|_|_|_| |_|_|_|___|_|_|_| |___|
+  |._)      |_| |_|
+ ('.|
+  |._)
+  '-'"
   #puts "Please enter your full name"
 end
 
