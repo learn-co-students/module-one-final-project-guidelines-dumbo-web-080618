@@ -2,6 +2,7 @@ require_relative '../config/environment'
 require_relative '../app/models/appointment.rb'
 require_relative '../app/models/doctor.rb'
 require_relative '../app/models/patient.rb'
+require_relative '../app/models/credential.rb'
 require 'colorize'
 def welcome
   puts "Hello, welcome to the"
@@ -48,10 +49,13 @@ old_logger = ActiveRecord::Base.logger
 #turn off debug
 ActiveRecord::Base.logger = nil
 #turn on debug
+# otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
+#
+# cred1 = Credential.create(username:"otash8888",password:"123password",admin?:false,other_id:otash.id)
+# binding.pry
 #ActiveRecord::Base.logger = old_logger
 # felix = Patient.create(first_name:"felix",last_name:"chan",gender:"f")
 #felix = Patient.find_by(first_name:"felix")#,last_name:"chan",gender:"f")
-# otash = Patient.create(first_name:"otash",last_name:"kamalov",gender:"m")
 #sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
 #sher = Doctor.find_by(first_name:"sherzod")
 # vidim = Doctor.create(first_name:"vadim",last_name:"avnilov",gender:"bm", specialties:"gynaecologist")
@@ -65,9 +69,16 @@ ActiveRecord::Base.logger = nil
 def view
   prompt = TTY::Prompt.new
   begin
+
     user_input1 = prompt.ask("Please enter your full name:")
-    f_patient = Patient.find_patient(user_input1)
-    f_patient.view
+    begin
+      f_patient = Patient.find_patient(user_input1)
+      f_patient.view
+    rescue
+      puts "Given name does not exsist"
+      return
+    end
+
   rescue
     puts "Yep something went wrong in view dunno where..."
     binding.pry
@@ -181,33 +192,74 @@ end
 
 def create_doc
   prompt = TTY::Prompt.new
+  doctor1 = nil
   begin
     name = prompt.ask('What is your full name? (first and last name)')
     splited_name = name.split(" ")
     gender = prompt.ask('What is your gender?')
     special = prompt.ask('What is your specialty?')
-    Doctor.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender,specialties:special)
+    doctor1 = Doctor.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender,specialties:special)
 
     puts "The doctor has been added!"
   rescue
     puts "Yep something went wrong in create_doc dunno where..."
     binding.pry
   end
+  doctor1
 end
 
 def create_pat
   prompt = TTY::Prompt.new
+  patient1 = nil
   begin
     name = prompt.ask('What is your full name? (first and last name)')
     splited_name = name.split(" ")
     gender = prompt.ask('What is your gender?')
-    Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
+    patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
 
     puts "The patient has been added!"
   rescue
     puts "Yep something went wrong in create_pat dunno where..."
     binding.pry
   end
+  patient1
+end
+
+def front_page
+  prompt = TTY::Prompt.new
+  input = prompt.select("Please choose your command?", %w(LOGIN CREATE_USER))
+  case input
+  when "LOGIN"
+    login
+  when "CREATE_USER"
+    create_user
+  else
+    puts "Wrong input"
+  end
+end
+
+def login
+  prompt = TTY::Prompt.new
+
+  user_name = prompt.ask('Please enter username:')
+  user_password = prompt.ask('Please enter password:')
+
+  cred1 = Credential.find_by(username:user_name,password:user_password)
+  #cred1.admin?
+  if cred1 == nil
+    puts "Incorrect username or password"
+    return
+  end
+
+end
+
+def create_user
+  prompt = TTY::Prompt.new
+  user = create_pat
+  user_name = prompt.ask('Please enter username:')
+  user_password = prompt.ask('Please enter password:')
+
+  Credential.create(username:user_name,password:user_password,admin?:false,other_id:user.id)
 end
 
 def run
@@ -215,8 +267,9 @@ def run
   prompt = TTY::Prompt.new
   system "clear"
   welcome
+  front_page
   help
-  #name = prompt.ask('What is your full name?')
+
   loop do
 
     input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT CREATE_DOC CREATE_PAT))

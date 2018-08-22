@@ -1,7 +1,7 @@
 class Doctor < ActiveRecord::Base
   has_many :appointments
   has_many :patients, through: :appointments
-
+  has_one :credential
   def full_name
     [self.first_name, self.last_name].join(" ")
   end
