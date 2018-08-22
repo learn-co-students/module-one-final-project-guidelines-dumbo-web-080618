@@ -1,6 +1,7 @@
 require 'csv'
 require 'pry'
 require_relative '../lib/legislator.rb'
+require_relative '../lib/user.rb'
 
 #legislators data was an open source resource from github https://github.com/govtrack/congress-maps
 path = File.expand_path('../legislators.csv', __FILE__)
@@ -23,4 +24,10 @@ legislators.each do |legislator|
     :phone => legislator[10]
   }
   Legislator.create(legislator_hash)
+end
+
+User.destroy_all
+
+50.times do |index|
+  User.create!(name: Faker::Name.name, age: Faker::Number.between(18, 89), gender: Faker::Boolean.boolean, party: Faker::Boolean.boolean)
 end
