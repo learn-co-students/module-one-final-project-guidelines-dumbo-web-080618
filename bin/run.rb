@@ -73,7 +73,10 @@ def view(name)
     f_patient = Patient.find_patient(name)
     f_patient.view
   rescue
-    puts "Given name does not exsist"
+    system "clear"
+    welcome
+    print "ERROR:".colorize(:color => :white,:background => :red)
+    puts " Username have been taken".colorize(:color => :red)
     return
   end
 end
@@ -172,7 +175,6 @@ def create_doc
     gender = prompt.ask('What is your gender?')
     special = prompt.ask('What is your specialty?')
     doctor1 = Doctor.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender,specialties:special)
-
     puts "The doctor has been added!"
   rescue
     puts "Yep something went wrong in create_doc dunno where..."
@@ -189,7 +191,6 @@ def create_pat
     splited_name = name.split(" ")
     gender = prompt.ask('What is your gender?')
     patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
-
     puts "The patient has been added!"
   rescue
     puts "Yep something went wrong in create_pat dunno where..."
@@ -219,7 +220,7 @@ def login
   prompt = TTY::Prompt.new
 
   user_name = prompt.ask('Please enter username:')
-  user_password = prompt.ask('Please enter password:')
+  user_password = prompt.mask('Please enter password:')
 
   begin
     cred1 = Credential.find_by(username:user_name,password:user_password)
