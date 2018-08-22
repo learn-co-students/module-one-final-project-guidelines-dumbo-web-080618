@@ -219,6 +219,7 @@ def front_page
   else
     puts "Wrong input"
   end
+
 end
 
 def login
@@ -250,7 +251,7 @@ def run
   prompt = TTY::Prompt.new
   system "clear"
   welcome
-  front_page
+  name = front_page
   help
 
   loop do
@@ -258,7 +259,7 @@ def run
     input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT CREATE_DOC CREATE_PAT))
     case input
     when "HELP"
-      help
+      help(name)
     when "VIEW"
       view
     when "CREATE"
