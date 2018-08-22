@@ -5,7 +5,7 @@ require_relative '../app/models/patient.rb'
 
 def welcome
   puts "Hello welcome to the App"
-  puts "Please enter your full name"
+  #puts "Please enter your full name"
 end
 
 def help
@@ -148,6 +148,7 @@ end
 
 def run
   prompt = TTY::Prompt.new
+  system "clear"
   welcome
   help
   #name = prompt.ask('What is your full name?')
