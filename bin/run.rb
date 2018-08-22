@@ -12,25 +12,31 @@ def current_time
   end
 end
 
-# def activity_menu
-#   prompt = TTY::Prompt.new
-#   prompt.select("Today's weather is perfect for #{}")
-# end
+def random_weather_condition
+  Weather.all_weather_types.sample
+end
 
 
-def introduction
+def main_menu
   prompt = TTY::Prompt.new
+  current_weather = random_weather_condition
   prompt.select("#{current_time}
     Can't think of something to do today?
     Welcome to Better Weather CLI!
-    Today's weather calls for #{Weather.random_condition}.") do |menu|
-    menu.choice 'activity', activity_menu
+    Today's weather calls for #{current_weather.condition}.") do |menu|
+    menu.choice 'activity', activity_menu(current_weather)
     menu.choice 'exit'
   end
 end
 
-# introduction
-WeatherActivity.random_activity
+def activity_menu(current_weather)
+  binding.pry
+  prompt = TTY::Prompt.new
+  prompt.select("Today's weather is perfect for #{}")
+end
+#
+main_menu
+# Weather.all_weather_types
 # binding.pry
 # 0
 
