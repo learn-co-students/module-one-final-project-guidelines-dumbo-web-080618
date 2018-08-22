@@ -23,7 +23,6 @@ while !over
     puts "Goodbye #{user.name}".colorize(:green)
     over = true
   when 5
-    clear_screen
     puts "User stats\nName: #{user.name}\nTotal Questions Taken: #{user.total_taken}\nTotal Answered Correctly: #{user.total_correct}\n& #{user.get_percentage}"
   else
     puts "Invalid answer.".colorize(:red)
