@@ -6,19 +6,7 @@ require_relative '../app/models/credential.rb'
 require 'colorize'
 def welcome
   puts "Hello, welcome to the"
-  # puts" _____  _  _____ "
-  # puts"(___  \\( )/  ___)"
-  # puts"  (___ | | ___)  "
-  # puts'     /"| ("\     '
-  # puts"    ( (| |) )    "
-  # puts"     `.!' .'     "
-  # puts"      / .'\\      "
-  # puts"      \\|/ /      "
-  # puts"       /.<       "
-  # puts"      (| |)      "
-  # puts"       | '       "
-  # puts"       `-'       "
-puts"  .-.
+  puts"  .-.
  (   )  ___
  -| |-'`   '-._,
  -| |-.      .'
@@ -59,13 +47,9 @@ ActiveRecord::Base.logger = nil
 #sher = Doctor.create(first_name:"sherzod",last_name:"karimov",gender:"m", specialties:"urologist")
 #sher = Doctor.find_by(first_name:"sherzod")
 # vidim = Doctor.create(first_name:"vadim",last_name:"avnilov",gender:"bm", specialties:"gynaecologist")
- #appt2 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "02/02/2018 09:00",duration:1)
+# appt2 = Appointment.create(doctor_id:sher.id,patient_id:felix.id,date: "02/02/2018 09:00",duration:1)
 # appt1 = Appointment.create(doctor_id:vidim.id,patient_id:felix.id,date: "01/03/2018 05:00",duration:1)
-#
 
-# puts enter a date
-# user_input = gets.chomp
-# date = Time.parse(user_input)
 def view
   prompt = TTY::Prompt.new
   begin
@@ -141,7 +125,6 @@ def update
       puts "patient name does not exist"
       return
     end
-    # doctor = prompt.ask('Which doctor you want to change an appointment with?')
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
 
     begin

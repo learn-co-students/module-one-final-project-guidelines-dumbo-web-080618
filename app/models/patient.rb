@@ -18,9 +18,6 @@ class Patient < ActiveRecord::Base
         if date.to_i >= (appt.date).to_i and date.to_i <= (appt.date).to_i + duration.hours
           return false
         end
-        # if date > "17:00" and date < "09:00"
-        #   return false
-        # end
       end
       true
     end

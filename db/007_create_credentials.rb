@@ -4,6 +4,8 @@ class CreatePatients < ActiveRecord::Migration[4.2]
       t.string :first_name
       t.string :last_name
       t.string :gender
+      # t.string :username
+      # t.string :password
     end
   end
 end
