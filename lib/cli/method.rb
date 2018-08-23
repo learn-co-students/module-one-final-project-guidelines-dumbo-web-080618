@@ -63,18 +63,20 @@ def create(name)
         return
       end
       puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
+      puts "input 'quit' to go back to main menu"
       begin
-        date = Time.parse(prompt.ask("Please enter appointment date:"))
-        a = f_patient.add_appointment(doctor, date)
-        if a != nil
-          break
+        input = prompt.ask("Please enter appointment date:")
+        if input == "quit"
+          return
         end
+        date = Time.parse(input)
+        a = f_patient.add_appointment(doctor, date)
+        return
       rescue
         system "clear"
         welcome
         print "ERROR:".colorize(:color => :white,:background => :red)
-        puts " Time have been taken".colorize(:color => :red)
-        return
+        puts " Time have been taken or you have not enter the correct date format".colorize(:color => :red)
       end
     rescue
       puts "Yep something went wrong in create dunno where..."
@@ -90,6 +92,7 @@ def update(name)
   prompt = TTY::Prompt.new
   begin
     pname = Patient.find_patient(name)
+
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
     if pdoctor == "EXIT"
       system "clear"
