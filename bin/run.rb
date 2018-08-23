@@ -1,4 +1,5 @@
 require_relative '../config/environment'
+<<<<<<< HEAD
 
 
 #sara = User.new(name: "Sara", max_price_range: 20, email: "Sarah.C@hotmail")
@@ -180,3 +181,5 @@ def signup
   end
 
 greeting
+=======
+>>>>>>> d2d79fdc3c39b20e0e8ad27b0aca91d9cc19fac2
