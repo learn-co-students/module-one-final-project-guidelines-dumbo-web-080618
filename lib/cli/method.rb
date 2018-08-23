@@ -41,8 +41,6 @@ def view(name)
   prompt = TTY::Prompt.new
   begin
     f_patient = Patient.find_patient(name)
-    system "clear"
-    welcome
     f_patient.view
   rescue
     system "clear"
@@ -85,7 +83,7 @@ def create(name)
   end
   system "clear"
   welcome
-  puts "Appointment created"
+  puts "The appointment has been created".colorize(:color => :green)
 end
 
 def update(name)
@@ -126,7 +124,7 @@ def update(name)
     pname.update_appointment(pdoctor, old_time, new_time)
     system "clear"
     welcome
-    puts "The appointment has been updated!"
+    puts "The appointment has been updated!".colorize(:color => :green)
   rescue
     puts "Yep something went wrong in update dunno where..."
     binding.pry
@@ -164,7 +162,7 @@ def remove(name)
     patient.remove_appointment(doctor, time)
     system "clear"
     welcome
-    puts "The appointment has been removed!"
+    puts "The appointment has been removed!".colorize(:color => :green)
   rescue
     puts "Yep something went wrong in remove, dunno where..."
     binding.pry

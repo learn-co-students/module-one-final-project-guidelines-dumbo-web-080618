@@ -25,10 +25,10 @@ class Patient < ActiveRecord::Base
     def add_appointment(doctor, date, duration = 1.0, note = "")
       if doctor_date_avaiable?(doctor, date, duration)
         a = Appointment.create(doctor_id: doctor.id, patient_id: self.id, date: date, note: note, duration: duration)
-        puts "The appointment has been created!"
+        puts "The appointment has been created!".colorize(:color => :green)
         a
       else
-        puts "Doctor is unavaiable at this time!"
+        puts "Doctor is unavaiable at this time!".colorize(:color => :yellow)
       end
     end
 
@@ -36,9 +36,9 @@ class Patient < ActiveRecord::Base
       if doctor_date_avaiable?(doctor, new_date, duration)
         temp = Appointment.find_by(doctor_id: doctor.id, patient_id: self.id, date: old_date)
         temp.update(date: new_date)
-        puts "Time has been updated!"
+        puts "Time has been updated!".colorize(:color => :green)
       else
-        puts "Doctor is unavaiable at this time!"
+        puts "Doctor is unavaiable at this time!".colorize(:color => :yellow)
       end
     end
 
@@ -49,19 +49,21 @@ class Patient < ActiveRecord::Base
         appt_obj.patient_id == self.id
       end
       if list_appts == []
-        puts "You don't have any appointments"
+        system "clear"
+        welcome
+        puts "You don't have any appointments".colorize(:color => :yellow)
       else
-
-      list_appts.each do |appt_obj|
-        id1 = appt_obj.doctor_id
-        f_doc = Doctor.find_by(id:id1)
-        #d = Time.parse(appt_obj.date)
-        puts "-------------------------------------------"
-        puts "Doctor name: #{f_doc.full_name}"
-        puts "appointment date: #{appt_obj.date.localtime}"
-        puts "-------------------------------------------"
+        system "clear"
+        welcome
+        list_appts.each do |appt_obj|
+          id1 = appt_obj.doctor_id
+          f_doc = Doctor.find_by(id:id1)
+          puts "-------------------------------------------"
+          puts "Doctor name: #{f_doc.full_name}"
+          puts "appointment date: #{appt_obj.date.localtime}"
+          puts "-------------------------------------------"
+        end
       end
-    end
     end
 
 
