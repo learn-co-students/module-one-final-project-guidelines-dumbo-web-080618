@@ -66,8 +66,8 @@ end
 
 def create_account
   puts "Please choose a Username"
-  username = gets.chomp
-    if User.find_by(name: username) != nil
+  username = gets.strip
+    if (User.find_by(name: username) != nil )
       clear_screen
       logo
       puts "That username already exists. Please chooser a different username"
@@ -82,7 +82,8 @@ def create_account
   set_password = nil #used to pass the actual passcode
   while !same_pass
     password1 = prompt.mask("Please choose a password")
-      loop do break if password1 != nil
+      loop do 
+        break if password1 != nil
         password1 = prompt.mask("Please choose a password")
       end
     password2 = prompt.mask("Please repeat that password")
