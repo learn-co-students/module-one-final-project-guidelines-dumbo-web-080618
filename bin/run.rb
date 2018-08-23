@@ -5,6 +5,7 @@ require 'htmlentities'
 require 'json'
 require_relative '../config/environment'
 
+begin
 clear_screen
 over = false
 user = login
@@ -53,3 +54,7 @@ while !over
   end
 end
 
+rescue
+  puts "YOU BROKE THE APP THANKS BUDDY - GO AHEAD AND RESTART -"
+
+end
