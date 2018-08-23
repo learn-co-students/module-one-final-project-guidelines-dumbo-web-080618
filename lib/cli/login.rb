@@ -39,6 +39,8 @@ def login_account
       #it works now
       password = prompt.mask('What is your Password?')
       loop do break if password != nil
+        clear_screen
+        logo
         password = prompt.mask("What is your Password?")
       end
           if Base64.encode64(password) == user.password
@@ -50,6 +52,8 @@ def login_account
             login_account
           end
     else
+      clear_screen
+      logo
       puts "The account name does not exist. Please try again".colorize(:red)
       login_account
     end
@@ -81,8 +85,11 @@ def create_account
   same_pass = false
   set_password = nil #used to pass the actual passcode
   while !same_pass
+    clear_screen
+    logo
     password1 = prompt.mask("Please choose a password")
-      loop do 
+
+      loop do
         break if password1 != nil
         password1 = prompt.mask("Please choose a password")
       end
