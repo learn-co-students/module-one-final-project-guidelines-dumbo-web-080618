@@ -3,7 +3,6 @@ class Legislator < ActiveRecord::Base
   has_many :users, through: :donations
 
 
-  TTY::Prompt.new
   def self.find_by_state(state)
     senators = Legislator.all.select {|legislator| legislator.title =='sen'}
     senators.find(state: state)
@@ -11,7 +10,7 @@ class Legislator < ActiveRecord::Base
 
   def self.find_senator_or_houseRep(searchfor)
     searchfor = searchfor.slice(0,3)
-    Legislator.all.select {|legislator| legislator.title == searchfor}
+    reps = Legislator.all.select {|legislator| legislator.title == searchfor}
   end
 
   def full_name

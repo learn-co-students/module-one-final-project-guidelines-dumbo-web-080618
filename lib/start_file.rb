@@ -8,9 +8,9 @@ def get_name
   name = gets.chomp
 end
 
-def age
+def get_age
   puts 'Please enter your age.'
-  age = gets.chomp
+  age = gets.chomp.to_i
 end
 
 def gender
@@ -25,7 +25,7 @@ end
 
 def sign_up
   user_name = get_name
-  user_age = age
+  user_age = get_age
   user_gender = gender
   user_party = party
   User.create(name: user_name, age: user_age, gender: user_gender, party: user_party)
@@ -33,7 +33,7 @@ end
 
 def validation
   user_name = get_name
-  user_age = age
+  user_age = get_age
   user = User.find_by(name: user_name)
   if user.age == user_age
     return user

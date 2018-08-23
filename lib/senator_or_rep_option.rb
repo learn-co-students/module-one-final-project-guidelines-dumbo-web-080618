@@ -18,6 +18,7 @@ end
 
 def find_sen_or_rep(searchfor)
   searchfor = searchfor.slice(0,3)
+  binding.pry
   legislatorArray = Legislator.all.select {|legislator| legislator.title == searchfor}
   legislatorArray.each_with_index do |legislator,  index|
     puts "#{index + 1}. #{legislator}"
@@ -204,8 +205,18 @@ def choose_menu
   num = select_option
   num = num.to_i
   person = view_legislator(num, legislator_array)
-  # binding.pry
-  make_donation(legislator_array[num-1])
+  display_info(person)
+  ask_user_donation_yes_no(person)
+  #make_donation(legislator_array[num-1])
+end
+
+def display_info(person)
+    puts "This is #{person.first_name} #{person.last_name}'s information:
+    Title: #{person.title.capitalize}.\n
+    State: #{person.state}\n
+    Address: #{person.address}\n
+    Phone number: #{person.phone}\n
+    Website: #{person.url}"
 end
 
 def view_legislator(num, legislator_array)
@@ -223,23 +234,69 @@ def select_option
 end
 
 def quit
-  puts "Please enter quit to exit the program."
+  puts "Are you sure you want to quit? Type yes or no."
   user_input = gets.chomp
-  if user_input == "quit"
+  if user_input.downcase == "yes"
     puts "Thanks for visiting"
     #put in a break!!!!!!
-  else
-    puts "Invalid input"
+  elsif user_input.downcase == "no"
+    choose_menu
   end
 end
 
-def make_donation(legislator_name)
+def ask_user_donation_yes_no(person)
+  puts "Would you like to make a donation? Type yes or no."
+  user_input = gets.chomp
+  if user_input.downcase == "yes"
+    make_donation(person)
+  else
+    puts "Type 'quit' to exit or 'view' to view another representative."
+    user_input = gets.chomp
+    if user_input.downcase == "quit"
+      quit
+    elsif user_input.downcase == "view"
+      choose_menu
+    else
+      puts "Type 'quit' to exit or 'view' to view another representative."
+    end
+  end
+end
+
+def make_donation(legislator_obj)
   puts "To make a donation, please confirm your name and age."
   user = validation
-  puts "Please confirm this is Senator you would like to donate to."
-  found_legislator = find_by_name(legistlator_name)
-  puts "#{found_legislator.full_name}"
+  puts "Please confirm this is legislator you would like to donate to."
+  puts "#{legislator_obj.full_name}"
   puts "Enter 1 for yes or 2 for no"
-  User.donate(user.id, found_legislator.id)
-  puts "Thank you for making a donation"
+  user_input = gets.chomp
+  puts 'Please enter the amount you would like to donate'
+  amount_input = gets.chomp.to_i
+  if user_input == '1'
+    user.donate(legislator_obj.id, amount_input)
+    puts "Thank you for making a donation"
+  else
+    puts "Please type your representative name again"
+    correct_name = gets.chomp
+    nameArray = correct_name.split(' ')
+    first_name = nameArray[0]
+    last_name = nameArray[1]
+    Legislator.find_by(first_name: first_name, last_name: last_name)
+    puts "Please confirm this is the legislator you would like to donate to."
+    puts "#{legislator_obj.full_name}"
+    puts "Enter 1 for yes or 2 for no"
+    user_input_again = gets.chomp
+    if user_input == '1'
+      user.donate(legislator_obj.id, amount_input)
+      puts 'Thank you for making a donation'
+    else
+      puts "Sorry it doesn't seem like we have that legislator"
+      puts "Type 'quit' to exit or 'view' to view another representative."
+      user_input = gets.chomp
+      if user_input.downcase == "quit"
+        quit
+      elsif user_input.downcase == "view"
+        choose_menu
+      end
+    end
+  end
 end
