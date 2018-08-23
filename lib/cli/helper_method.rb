@@ -52,7 +52,7 @@ def create_pat
     splited_name = name.split(" ")
     gender = prompt.ask('What is your gender?')
     patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
-    puts "The patient has been added!"
+    puts "The patient has been added!".colorize(:color => :green)
   rescue
     puts "Yep something went wrong in create_pat dunno where..."
     binding.pry
@@ -78,7 +78,10 @@ def create_user
         Credential.create(username:user_name,password:user_password1,admin?:false,other_id:user.id)
         break
       else
-        puts "password did not match"
+        system "clear"
+        welcome
+        print "ERROR:".colorize(:color => :white,:background => :red)
+        puts " Password did not match".colorize(:color => :red)
       end
     else
       system "clear"
