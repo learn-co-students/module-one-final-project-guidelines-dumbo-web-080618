@@ -25,9 +25,13 @@ class Patient < ActiveRecord::Base
     def add_appointment(doctor, date, duration = 1.0, note = "")
       if doctor_date_avaiable?(doctor, date, duration)
         a = Appointment.create(doctor_id: doctor.id, patient_id: self.id, date: date, note: note, duration: duration)
+        system "clear"
+        welcome
         puts "The appointment has been created!".colorize(:color => :green)
         a
       else
+        system "clear"
+        welcome
         puts "Doctor is unavaiable at this time!".colorize(:color => :yellow)
       end
     end
@@ -40,7 +44,7 @@ class Patient < ActiveRecord::Base
          system "clear"
          welcome
          puts "The appointment has been updated!".colorize(:color => :green)
-         a 
+         a
       else
         system "clear"
         welcome

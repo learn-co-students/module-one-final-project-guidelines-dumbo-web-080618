@@ -1,6 +1,7 @@
 require_relative '../../config/environment'
 require 'colorize'
 def welcome
+  system 'clear'
   puts "Hello, welcome to the"
   puts"  .-.
  (   )  ___
@@ -18,7 +19,7 @@ def welcome
 end
 
 def help
-  system 'clear'
+
   welcome
   puts "Please see the commands below:"
   puts "--------------------------------------------------------"
@@ -43,7 +44,7 @@ def view(name)
     f_patient = Patient.find_patient(name)
     f_patient.view
   rescue
-    system "clear"
+
     welcome
     print "ERROR:".colorize(:color => :white,:background => :red)
     puts " Username have been taken".colorize(:color => :red)
@@ -59,30 +60,32 @@ def create(name)
       doctor = prompt.select("Choose your doctor", map_of_doctors)
       #binding.pry
       if doctor == "EXIT"
-        system "clear"
+
         welcome
         return
       end
       puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
+      puts "input 'quit' to go back to main menu"
       begin
-        date = Time.parse(prompt.ask("Please enter appointment date:"))
-        a = f_patient.add_appointment(doctor, date)
-        if a != nil
-          break
+        input = prompt.ask("Please enter appointment date:")
+        if input == "quit"
+          return
         end
+        date = Time.parse(input)
+        a = f_patient.add_appointment(doctor, date)
+        return
       rescue
-        system "clear"
+
         welcome
         print "ERROR:".colorize(:color => :white,:background => :red)
-        puts " Time have been taken".colorize(:color => :red)
-        return
+        puts " Time have been taken or you have not enter the correct date format".colorize(:color => :red)
       end
     rescue
       puts "Yep something went wrong in create dunno where..."
       binding.pry
     end
   end
-  system "clear"
+
   welcome
   puts "The appointment has been created".colorize(:color => :green)
 end
@@ -95,7 +98,7 @@ def update(name)
 
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
     if pdoctor == "EXIT"
-      system "clear"
+
       welcome
       return
     end
@@ -103,12 +106,12 @@ def update(name)
       old_time = prompt.select('What appointment do you like to update?', map_of_times(pname, pdoctor))
 
       if old_time == "EXIT"
-        system "clear"
+
         welcome
         return
       end
     rescue
-      system "clear"
+
       welcome
       print "ERROR:".colorize(:color => :white,:background => :red)
       puts " You have no appointment(s) with #{pdoctor.full_name}".colorize(:color => :red)
@@ -118,7 +121,7 @@ def update(name)
     begin
       new_time = Time.parse(prompt.ask('Please enter a new date/time:'))
     rescue
-      system "clear"
+
       welcome
       print "ERROR:".colorize(:color => :white,:background => :red)
       puts " The input you have entered does not complie with the date format".colorize(:color => :red)
@@ -152,27 +155,27 @@ def remove(name)
     loop do
       doctor = prompt.select("Choose your doctor", map_of_doctors)
       if doctor == "EXIT"
-        system "clear"
+
         welcome
         return
       end
       begin
         time = prompt.select('What appointment do you like to update?', map_of_times(patient, doctor))
         if time == "EXIT"
-          system "clear"
+
           welcome
           return
         end
         break
       rescue
-        system "clear"
+
         welcome
         print "ERROR:".colorize(:color => :white,:background => :red)
         puts " No appointments with #{doctor.full_name}".colorize(:color => :red)
       end
     end
     patient.remove_appointment(doctor, time)
-    system "clear"
+
     welcome
     puts "The appointment has been removed!".colorize(:color => :green)
   rescue
@@ -191,7 +194,7 @@ def login
     cred1 = Credential.find_by(username:user_name,password:user_password)
     Patient.find_by(id:cred1.other_id)
   rescue
-    system "clear"
+
     welcome
     print "ERROR:".colorize(:color => :white,:background => :red)
     puts " Incorrect username or password".colorize(:color => :red)

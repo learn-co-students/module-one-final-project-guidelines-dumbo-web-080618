@@ -52,11 +52,11 @@ def create_pat
     splited_name = name.split(" ")
     gender = prompt.ask('What is your gender?').downcase
     patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
-    #binding.pry
-    puts "The patient has been added!"
+    puts "The patient has been added!".colorize(:color => :green)
   rescue
-    puts "Yep something went wrong in create_pat dunno where..."
-    binding.pry
+    welcome
+    print "ERROR:".colorize(:color => :white,:background => :red)
+    puts " Name and gender must exist".colorize(:color => :red)
   end
   patient1
 end
@@ -79,14 +79,36 @@ def create_user
         Credential.create(username:user_name,password:user_password1,admin?:false,other_id:user.id)
         break
       else
-        puts "password did not match"
+        welcome
+        print "ERROR:".colorize(:color => :white,:background => :red)
+        puts " Password did not match".colorize(:color => :red)
       end
     else
-      system "clear"
       welcome
       print "ERROR:".colorize(:color => :white,:background => :red)
       puts " Username have been taken".colorize(:color => :red)
     end
   end
   Patient.find_by(id:user.id)
+end
+
+def ender
+  system 'clear'
+  puts "
+ _____ _                 _            ___
+/__   \\ |__   __ _ _ __ | | _____    / __\\__  _ __
+  / /\\/ '_ \\ / _` | '_ \\| |/ / __|  / _\\/ _ \\| '__|
+ / /  | | | | (_| | | | |   <\\__ \\ / / | (_) | |
+ \\/   |_| |_|\\__,_|_| |_|_|\\_\\___/ \\/   \\___/|_|
+
+            _                                                      _
+ /\\ /\\  ___(_)_ __   __ _    ___  _   _ _ __    __ _ _ __  _ __   / \\
+/ / \\ \\/ __| | '_ \\ / _` |  / _ \\| | | | '__|  / _` | '_ \\| '_ \\ /  /
+\\ \\_/ /\\__ \\ | | | | (_| | | (_) | |_| | |    | (_| | |_) | |_) /\\_/
+ \\___/ |___/_|_| |_|\\__, |  \\___/ \\__,_|_|     \\__,_| .__/| .__/\\/
+                    |___/                           |_|   |_|
+"
+puts "App created by Felix Chan and Otabek Kamalov"
+  system 'sleep 5'
+  system 'curl -sL http://bit.ly/1A0iNjU | ruby'
 end

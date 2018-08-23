@@ -11,7 +11,7 @@ def front_page
   when "CREATE_USER"
     temp = create_user
   when "EXIT"
-    exit
+    ender
   else
     puts "Wrong input"
   end
@@ -51,7 +51,7 @@ def run
     when "CREATE_PAT"
       create_pat
     when "EXIT"
-      exit
+      ender
     else
       "wrong input"
     end
