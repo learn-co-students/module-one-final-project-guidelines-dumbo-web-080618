@@ -83,18 +83,22 @@ end
 
 def create(name)
   prompt = TTY::Prompt.new
+  loop do
   begin
     f_patient = Patient.find_patient(name)
     doctor = prompt.select("Choose your doctor", map_of_doctors)
     puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     begin
-      date = prompt.ask("Please enter appointment date:", convert: :datetime)
-      f_patient.add_appointment(doctor, date)
-      puts "The appointment has been created!"
+      date = Time.parse(prompt.ask("Please enter appointment date:"))
+      a = f_patient.add_appointment(doctor, date)
+      if a != nil
+        break
+      end
     rescue
       puts "bad time yoh!"
       puts "enter better!!!"
     end
+  end
   rescue
     puts "Yep something went wrong in create dunno where..."
     binding.pry
@@ -113,7 +117,7 @@ end
 
 def map_of_times(name, doctor)
   list_all_name = Appointment.all.select{|e| e.patient_id == name.id and e.doctor_id == doctor.id}
-  list_all_time = list_all_name.map {|e| e.date}
+  list_all_time = list_all_name.map {|e| e.date.localtime}
   patient_map_time = {}
   for i in 0..list_all_time.length-1
     patient_map_time[list_all_time[i]] = list_all_time[i]
@@ -144,6 +148,7 @@ def update(name)
     end
 
     pname.update_appointment(pdoctor, old_time, new_time)
+    #binding.pry
     puts "The appointment has been updated!"
   rescue
     puts "Yep something went wrong in update dunno where..."
@@ -161,7 +166,7 @@ def remove(name)
     patient.remove_appointment(doctor, time)
     puts "The appointment has been removed!"
   rescue
-    puts "Yep something went wrong in remove dunno where..."
+    puts "Yep something went wrong in remove, dunno where..."
     binding.pry
   end
 end
