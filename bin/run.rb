@@ -22,18 +22,22 @@ def greeting
 end
 
 def signup
-  puts "Please enter your full name"
-  name = gets.strip.downcase
-    if name == "exit"
-      puts "Thank you for using Heard From a Friend, have a nice day."
-      exit
-    end
   puts "Please enter an Email Address"
   email_address = gets.strip.downcase
-    if email_address == "exit"
-      puts "Thank you for using Heard From a Friend, have a nice day."
-      exit
-    end
+  if email_address == "exit"
+    puts "Thank you for using Heard From a Friend, have a nice day."
+    exit
+  end
+  if EmailAddress.valid?(email_address) != true
+    puts "That was an invalid email address format,please try again"
+    signup
+  else
+    puts "Please enter your full name"
+    name = gets.strip.downcase
+      if name == "exit"
+        puts "Thank you for using Heard From a Friend, have a nice day."
+        exit
+      end
 
   new_user = nil
     if User.find_by(email: email_address) == nil
@@ -54,7 +58,8 @@ def signup
             exit
           end
       end
-      main(new_user)
+    end
+    main(new_user)
   end
 
   def existing
@@ -272,4 +277,4 @@ def signup
       end
   end
 
-greeting
+signup
