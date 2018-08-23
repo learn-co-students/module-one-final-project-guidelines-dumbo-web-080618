@@ -1,8 +1,7 @@
 require_relative '../config/environment'
-<<<<<<< HEAD
 
 
-#sara = User.new(name: "Sara", max_price_range: 20, email: "Sarah.C@hotmail")
+
 def greeting
   prompt = TTY::Prompt.new.select("Welcome to Heard From a Friend.") do |y|
     y.choices "Sign in": "existing", "New Member" => "signup", Exit: "exit"
@@ -232,18 +231,22 @@ def signup
     puts "How much would you like to spend?"
     number = gets.chomp.to_i
 
-    ####### tty prompt to be able to  give the user a choice to either put in a price range or not ######
+    ############# ************ I think a bug will occur if a string is typed  *************** ############
 
     puts `clear`
     selected_act = Activity.select{|info|info.name == name && info.price <= number}
     if selected_act.length == 0
-      puts "Sorry, there was nothing in that price range. Want to try again?"
-      response = gets.chomp
-      if response.include?("yes")
-        find_by_response(name, user)
-      elsif response.include?("no")
-        puts “get more money”
-          add(user)
+      i = TTY::Prompt.new.select("Sorry, nothing in your price range =/. Do you want to:") do |y|
+        y.choices "Search for another activity?" => "events", "Go back to home page" => "main", "Log out" =>  "exit"
+      end
+      case i
+      when "events"
+        add(user)
+      when "main"
+        main(user)
+      when "exit"
+        puts "Thank you for using!"
+        exit
       end
   else
     prompt = TTY::Prompt.new
@@ -274,5 +277,3 @@ def signup
   end
 
 greeting
-=======
->>>>>>> d2d79fdc3c39b20e0e8ad27b0aca91d9cc19fac2
