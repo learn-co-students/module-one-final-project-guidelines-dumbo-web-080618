@@ -65,6 +65,7 @@ Welcome to Heard From a Friend.".pink) do |y|
     puts "Enjoy your day!".blue
     exit
   end
+  puts 'clear'
 end
 
 def signup
@@ -106,6 +107,7 @@ def signup
       end
     end
     main(new_user)
+    puts 'clear'
   end
 
   def existing
@@ -130,6 +132,7 @@ def signup
       user = User.find_by(email:email_address)
       main(user)
     end
+    gets 'clear'
   end
 
   def main(user)
@@ -150,6 +153,7 @@ def signup
     when "update"
       update(user)
     end
+    puts 'clear'
   end
 
   def saved_activities(user)
@@ -164,7 +168,7 @@ def signup
         case prompt
         when "yes"
         add(user)
-        when "no"
+        when "exit"
         puts "Thanks for using! Have a great day. M+~~~~~~~~+=~~=D.
               .M=~~~$+~~~~~~~~~~~~~~~O.
            :Z~~~~~~~~~~~~~~~~~~~~~~~~~~.
@@ -245,6 +249,7 @@ M~~~~~~~~~~~=::::::::+:::88I::::::~~~~=7~~~~~~~~M              M~~~~~~~~~Z
           end
         end
       end
+      puts 'clear'
       end
 
   def delete(user)
@@ -261,13 +266,13 @@ M~~~~~~~~~~~=::::::::+:::88I::::::~~~~=7~~~~~~~~M              M~~~~~~~~~Z
     end
     case i
     when "yes"
-      #binding.pry
+
       del = SavedActivity.where(user_id:user.id, activity_id:var.id).destroy_all
-      #binding.pry
+
       user.activities = user.activities.select {|act| act.id != var.id}
       user.activities
       saved_activities(user)
-      # SavedActivity.delete
+
     when "no"
       puts "That's ok, we all make mistakes."
       saved_activities(user)

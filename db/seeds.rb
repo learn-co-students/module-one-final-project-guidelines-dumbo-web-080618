@@ -11,7 +11,7 @@ giants = Activity.create(name:"Sports", place: "MetLife Stadium", genre: "Footba
 
 
 #Dancing
-house = Activity.create(name:"Dancing", place:"House of Yes", genre: "House", price: 30, best_time:1800, date: ["Friday,Saturday"])
+house = Activity.create(name:"Dancing", place:"House of Yes", genre: "House", price: 30, best_time:1800, date: ["Friday" ,"Saturday"])
 latin = Activity.create(name:"Dancing", place:"Bembe", genre: "Latin", price: 30, best_time:2200, date: ["Friday,Saturday"])
 mumble_rap = Activity.create(name:"Dancing", place:"40/40 Club", genre: "Mumble Rap", price: 50, best_time:2200, date: ["Friday,Saturday"])
 salsa = Activity.create(name:"Dancing", place:"Club Cache", genre: "Salsa", price: 40, best_time:2200, date: ["Friday,Saturday"])
