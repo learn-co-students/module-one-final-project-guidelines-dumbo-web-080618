@@ -27,6 +27,17 @@ def map_of_times(name, doctor)
   patient_map_time
 end
 
+def kill_doc
+  prompt = TTY::Prompt.new
+  begin
+    
+    puts "The doctor has been killed! U MURDERER!!"
+  rescue
+    puts "Yep something went wrong in create_doc dunno where..."
+    binding.pry
+  end
+end
+
 def create_doc
   prompt = TTY::Prompt.new
   doctor1 = nil

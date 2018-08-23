@@ -155,7 +155,6 @@ def remove(name)
     loop do
       doctor = prompt.select("Choose your doctor", map_of_doctors)
       if doctor == "EXIT"
-
         welcome
         return
       end

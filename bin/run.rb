@@ -34,7 +34,7 @@ def run
   welcome
   help
   loop do
-    input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT CREATE_DOC CREATE_PAT))
+    input = prompt.select("Please choose your command?", %w(HELP VIEW CREATE UPDATE REMOVE EXIT CREATE_DOC KILL_DOC))
     case input
     when "HELP"
       help
@@ -50,6 +50,8 @@ def run
       create_doc
     when "CREATE_PAT"
       create_pat
+    when "KILL_DOC"
+      kill_doc
     when "EXIT"
       ender
     else
