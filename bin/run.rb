@@ -61,7 +61,7 @@ def signup
   def existing
 
     puts "Please enter your email address"
-    email_address = gets.chomp
+    email_address = gets.chomp.downcase
     if !User.find_by(email:email_address)
       i = TTY::Prompt.new.select("Sorry, we can't seem to find the email address you entered. Would you like to:") do |y|
         y.choices "Try again?" => "existing", "Make a new account?" => "signup", Exit: "exit"
@@ -77,29 +77,103 @@ def signup
           exit
         end
     else
-      current_user = User.find_by(email:email_address)
-      main(current_user)
+      user = User.find_by(email:email_address)
+      main(user)
     end
   end
 
-  def main(current_user)
-    puts "Welcome #{current_user.name}"
+  def main(user)
+    puts "Welcome #{user.name.capitalize}"
     i = TTY::Prompt.new.select("Would you like to:") do |y|
-      y.choices "See your saved activities?" => "saved_activities", "Look for something new to do?" => "add activities", "Update your profile" => "update", Exit: "exit"
+      y.choices "See your saved activities?" => "saved_activities", "Look for something new to do?" => "add activities", "Update your profile." => "update", Exit: "exit"
+      #=================================MAYBE WE CAN CHANGE SAVED ACTIVITIES TO  "WOULD YOU LIKE TO SEE YOUR HISTORY " AS AN OPTION ==================================================
     end
 
     case i
     when "saved_activities"
-      saved_activities(current_user)
+      saved_activities(user)
     when "add activities"
-      add(current_user)
-    when "update"
-      update(current_user)
+      add(user)
     when "exit"
-      puts "Thank you for using, have a nice day."
+      puts "Thank you for using Heard From a Friend, have a nice day."
       exit
+    when "update"
+      update(user)
     end
   end
+
+  def saved_activities(user)
+    # user.reload
+    all = user.activities
+    results = []
+    #binding.pry
+    if all.length == 0
+      prompt = TTY::Prompt.new.select("Nothing in your saved activities, do you want to search for some?") do |y|
+        y.choices "Yes": "yes", "No, sign me out" => "exit"
+      end
+        case prompt
+        when "yes"
+        add(user)
+        when "no"
+        puts "Thanks for using! Have a great day."
+        exit
+      end
+    else
+    g = all.each_with_index { |act, i| results.push(puts " #{i + 1}. Place: #{act.place},  Price :#{act.price},  Genre:#{act.genre}")}
+    #binding.pry
+    puts "Do you want to delete anything from your activity list?"
+      response = gets.chomp.downcase
+      if response.include?("yes")
+          delete(user)
+      elsif response.include?("no")
+            puts "Would you like to add any events?"
+              response_two = gets.chomp
+              if response_two.include?("yes")
+                add(user)
+              elsif response_two.include?("no")
+                i = TTY::Prompt.new.select("Would you like to:") do |y|
+                  y.choices "Go back to your saved activites?" => "saved_activities", "Exit?" => "exit"
+                end
+                case i
+                when "saved_activities"
+                  saved_activities(user)
+                when "exit"
+                  puts "Thank you so much for using Heard from a Friend. Have a nice day!"
+                  exit
+                end
+            end
+          end
+        end
+      end
+
+  def delete(user)
+    # user.reload
+    user_a= user.activities
+    prompt = TTY::Prompt.new
+    options = []
+    user_a.each {|act| options.push({name:"Place:#{act.place}, Price:#{act.price}, Genre:#{act.genre}", value: act})}
+    var = prompt.select("You choose to delete", options)
+    #
+
+    i = TTY::Prompt.new.select("Are you sure you want to delete this activity?") do |y|
+      y.choices Yes: "yes", No: "no"
+    end
+    case i
+    when "yes"
+      #binding.pry
+      del = SavedActivity.where(user_id:user.id, activity_id:var.id).destroy_all
+      #binding.pry
+      user.activities = user.activities.select {|act| act.id != var.id}
+      user.activities
+      saved_activities(user)
+      # SavedActivity.delete
+    when "no"
+      puts "That's ok, we all make mistakes."
+      saved_activities(user)
+    end
+
+  end
+
 
   def update(user)
     i = TTY::Prompt.new.select("Would you like to:") do |y|
@@ -128,8 +202,7 @@ def signup
         case t
         when "Yes"
           user.destroy
-          puts "Hope to see you again!"
-          exit
+          greeting
         when "No"
           puts "We were afraid we almost lost you there."
           main(user)
@@ -143,12 +216,7 @@ def signup
     end
   end
 
-  def saved_activities(user)
-    all = user.activities
-    g = all.map {|act| puts "#{act.place}, #{act.price}, #{act.genre}"}
-    #binding.pry
-    ###############             do you want delete/add/exit?    ##########################
-  end
+
 
   def add(user)
     i = TTY::Prompt.new.select("#{user.name}, what kind of activity are you in the mood for?") do |y|
@@ -163,21 +231,46 @@ def signup
 
     puts "How much would you like to spend?"
     number = gets.chomp.to_i
+
     ####### tty prompt to be able to  give the user a choice to either put in a price range or not ######
 
     puts `clear`
     selected_act = Activity.select{|info|info.name == name && info.price <= number}
+    if selected_act.length == 0
+      puts "Sorry, there was nothing in that price range. Want to try again?"
+      response = gets.chomp
+      if response.include?("yes")
+        find_by_response(name, user)
+      elsif response.include?("no")
+        puts “get more money”
+          add(user)
+      end
+  else
     prompt = TTY::Prompt.new
     options = []
-    selected_act.each {|act| options.push({name: "Place: #{act.place} Price: #{act.price}", value: act})}
-    binding.pry
-    var = prompt.select("You picked", options)
+      ##################### How do we make it into a table??? ####################
+    selected_act.each {|act| options.push({name: "Place: #{act.place}, Price: #{act.price}, Type: #{act.genre}, Best Time to Go: #{act.best_time}", value: act})}
+    var = prompt.select("Here are your options:", options)
 
     puts `clear`
     v = SavedActivity.create(user_id:user.id, activity_id:var.id)
+    # g = Activity.find(var.id)
+    user.reload
 
+    i = TTY::Prompt.new.select("Activity saved in your profile! Do you want to:") do |y|
+      y.choices "Look for more events?" => "events", "See saved activities?" => "saved_events", "Log out?" => "exit"
+    end
 
-    ############### puts "activity saved. what do you wanan do ?"  #########################
+        case i
+        when "events"
+          add(user)
+        when "saved_events"
+          saved_activities(user)
+        when "exit"
+          puts "Come back soon!"
+          exit
+        end
+      end
   end
 
 greeting
