@@ -84,24 +84,24 @@ end
 def create(name)
   prompt = TTY::Prompt.new
   loop do
-  begin
-    f_patient = Patient.find_patient(name)
-    doctor = prompt.select("Choose your doctor", map_of_doctors)
-    puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     begin
-      date = Time.parse(prompt.ask("Please enter appointment date:"))
-      a = f_patient.add_appointment(doctor, date)
-      if a != nil
-        break
+      f_patient = Patient.find_patient(name)
+      doctor = prompt.select("Choose your doctor", map_of_doctors)
+      puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
+      begin
+        date = Time.parse(prompt.ask("Please enter appointment date:"))
+        a = f_patient.add_appointment(doctor, date)
+        if a != nil
+          break
+        end
+      rescue
+        puts "bad time yoh!"
+        puts "enter better!!!"
       end
-    rescue
-      puts "bad time yoh!"
-      puts "enter better!!!"
     end
-  end
-  rescue
-    puts "Yep something went wrong in create dunno where..."
-    binding.pry
+    rescue
+      puts "Yep something went wrong in create dunno where..."
+      binding.pry
   end
 end
 
