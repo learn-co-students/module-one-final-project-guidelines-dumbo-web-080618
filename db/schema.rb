@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_22_203515) do
+ActiveRecord::Schema.define(version: 2018_08_23_140131) do
 
   create_table "decks", force: :cascade do |t|
     t.integer "user_id"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2018_08_22_203515) do
     t.string "topic"
     t.text "question"
     t.string "answer"
+    t.boolean "universal", default: false
   end
 
   create_table "users", force: :cascade do |t|

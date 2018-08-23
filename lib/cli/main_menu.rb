@@ -12,6 +12,7 @@ def main_menu(user)
     menu.choice 'Make a new card', 2
     menu.choice 'Update or delete a card', 3
     menu.choice 'User Stats', 5
+    menu.choice 'Answer Random Questions', 6
     menu.choice 'Exit', 4
 
   end

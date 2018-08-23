@@ -64,10 +64,25 @@ def create_account
       puts "That username already exists. Please chooser a different username"
       create_account
     end
-  puts "Please choose a password"
-  password = gets.chomp
-  password = Base64.encode64(password)
-  user = User.create(name: username, password: password)
+  same_pass = false
+  set_password = nil #used to pass the actual passcode
+  while !same_pass
+    password1 = prompt.mask("Please choose a password")
+    password2 = prompt.mask("Please repeat that password")
+    if password1 == password2
+      set_password = password1
+      set_password = Base64.encode64(set_password)
+      same_pass = true
+    else
+      clear_screen
+      puts "Password re-entry not the same!".colorize(:red)
+      same_pass = false
+    end
+    clear_screen
+  end
+  
+
+  user = User.create(name: username, password: set_password)
   return user
 end
 
