@@ -16,6 +16,34 @@ require 'pry'
 
 # house_reps = Legislator.all.select {|legislator| legislator.title == 'rep'}
 
+puts "Hello, what is your name?"
+name = gets.chomp
+
+user = User.find_by(name: name)
+if user == nil
+  puts 'Please enter your age.'
+  age = gets.chomp
+  puts 'Please enter gender.'
+  gender = gets.chomp
+  puts 'Please enter political party.'
+  party = gets.chomp
+  User.create(name:name, age: age, gender: gender, party: party)
+end
+
+binding.pry
+
+
+
+
+
+
+
+
+
+
+
+
+
 puts 'Welcome! Please select where you would like to find a senator or house representative'
 senator_or_rep_input = gets.chomp
 
@@ -36,118 +64,138 @@ state_input = gets.chomp
 
 
 def modify_state_input(state_input)
-  states_fullname = ["Alaska", "Alabama", "Arkansas", "American Samoa", "Arizona",
-                  "California",
-                  "Colorado",
-                  "Connecticut",
-                  "District of Columbia",
-                  "Delaware",
-                  "Florida",
-                  "Georgia",
-                  "Guam",
-                  "Hawaii",
-                  "Iowa",
-                  "Idaho",
-                  "Illinois",
-                  "Indiana",
-                  "Kansas",
-                  "Kentucky",
-                  "Louisiana",
-                  "Massachusetts",
-                  "Maryland",
-                  "Maine",
-                  "Michigan",
-                  "Minnesota",
-                  "Missouri",
-                  "Mississippi",
-                  "Montana",
-                  "North Carolina",
-                  " North Dakota",
-                  "Nebraska",
-                  "New Hampshire",
-                  "New Jersey",
-                  "New Mexico",
-                  "Nevada",
-                  "New York",
-                  "Ohio",
-                  "Oklahoma",
-                  "Oregon",
-                  "Pennsylvania",
-                  "Puerto Rico",
-                  "Rhode Island",
-                  "South Carolina",
-                  "South Dakota",
-                  "Tennessee",
-                  "Texas",
-                  "Utah",
-                  "Virginia",
-                  "Virgin Islands",
-                  "Vermont",
-                  "Washington",
-                  "Wisconsin",
-                  "West Virginia",
-                  "Wyoming"]
+  states_by_abbreviation = {
+    'AL' => 'Alabama',
+    'AK' => 'Alaska',
+    'AS' => 'America Samoa',
+    'AZ' => 'Arizona',
+    'AR' => 'Arkansas',
+    'CA' => 'California',
+    'CO' => 'Colorado',
+    'CT' => 'Connecticut',
+    'DE' => 'Delaware',
+    'DC' => 'District of Columbia',
+    'FM' => 'Federated States Of Micronesia',
+    'FL' => 'Florida',
+    'GA' => 'Georgia',
+    'GU' => 'Guam',
+    'HI' => 'Hawaii',
+    'ID' => 'Idaho',
+    'IL' => 'Illinois',
+    'IN' => 'Indiana',
+    'IA' => 'Iowa',
+    'KS' => 'Kansas',
+    'KY' => 'Kentucky',
+    'LA' => 'Louisiana',
+    'ME' => 'Maine',
+    'MH' => 'Marshall Islands',
+    'MD' => 'Maryland',
+    'MA' => 'Massachusetts',
+    'MI' => 'Michigan',
+    'MN' => 'Minnesota',
+    'MS' => 'Mississippi',
+    'MO' => 'Missouri',
+    'MT' => 'Montana',
+    'NE' => 'Nebraska',
+    'NV' => 'Nevada',
+    'NH' => 'New Hampshire',
+    'NJ' => 'New Jersey',
+    'NM' => 'New Mexico',
+    'NY' => 'New York',
+    'NC' => 'North Carolina',
+    'ND' => 'North Dakota',
+    'OH' => 'Ohio',
+    'OK' => 'Oklahoma',
+    'OR' => 'Oregon',
+    'PW' => 'Palau',
+    'PA' => 'Pennsylvania',
+    'PR' => 'Puerto Rico',
+    'RI' => 'Rhode Island',
+    'SC' => 'South Carolina',
+    'SD' => 'South Dakota',
+    'TN' => 'Tennessee',
+    'TX' => 'Texas',
+    'UT' => 'Utah',
+    'VT' => 'Vermont',
+    'VI' => 'Virgin Island',
+    'VA' => 'Virginia',
+    'WA' => 'Washington',
+    'WV' => 'West Virginia',
+    'WI' => 'Wisconsin',
+    'WY' => 'Wyoming'
+  }
 
-    states_abbreviated = [ "AK",
-                                  "AL",
-                                  "AR",
-                                  "AS",
-                                  "AZ",
-                                  "CA",
-                                  "CO",
-                                  "CT",
-                                  "DC",
-                                  "DE",
-                                  "FL",
-                                  "GA",
-                                  "GU",
-                                  "HI",
-                                  "IA",
-                                  "ID",
-                                  "IL",
-                                  "IN",
-                                  "KS",
-                                  "KY",
-                                  "LA",
-                                  "MA",
-                                  "MD",
-                                  "ME",
-                                  "MI",
-                                  "MN",
-                                  "MO",
-                                  "MS",
-                                  "MT",
-                                  "NC",
-                                  "ND",
-                                  "NE",
-                                  "NH",
-                                  "NJ",
-                                  "NM",
-                                  "NV",
-                                  "NY",
-                                  "OH",
-                                  "OK",
-                                  "OR",
-                                  "PA",
-                                  "PR",
-                                  "RI",
-                                  "SC",
-                                  "SD",
-                                  "TN",
-                                  "TX",
-                                  "UT",
-                                  "VA",
-                                  "VI",
-                                  "VT",
-                                  "WA",
-                                  "WI",
-                                  "WV",
-                                  "WY"]
+  state_fullnames_to_abbreviation = {
+    'Alabama' => 'AL',
+    'Alaska' => 'AK',
+    'America Samoa' => 'AS',
+    'Arizona' => 'AZ',
+    'Arkansas' => 'AR',
+    'California' => 'CA',
+    'Colorado' => 'CO',
+    'Connecticut' => 'CT',
+    'Delaware' => 'DE',
+    'District of Columbia' => 'DC',
+    'Federated States of Micronesia' => 'FM',
+    'Florida' => 'FL',
+    'Georgia' => 'GA',
+    'Guam' => 'GU',
+    'Hawaii' => 'HI',
+    'Idaho' => 'ID',
+    'Illinois' => 'IL',
+    'Indiana' => 'IN',
+    'Iowa' => 'IA',
+    'Kansas' => 'KS',
+    'Kentucky' => 'KY',
+    'Louisiana' => 'LA',
+    'Maine' => 'ME',
+    'Maryland' => 'MD',
+    'Massachusetts' => 'MA',
+    'Marshall Islands' => 'MH',
+    'Michigan' => 'MI',
+    'Minnesota' => 'MN',
+    'Mississippi' => 'MS',
+    'Missouri' => 'MO',
+    'Montana' => 'MT',
+    'Nebraska' => 'NE',
+    'Nevada' => 'NV',
+    'New Hampshire' => 'NH',
+    'New Jersey' => 'NJ',
+    'New Mexico' => 'NM',
+    'New York' => 'NY',
+    'North Carolina' => 'NC',
+    'North Dakota' => 'ND',
+    'Northern Mariana Islands' => 'MP',
+    'Ohio' => 'OH',
+    'Oklahoma' => 'OK',
+    'Oregon' => 'OR',
+    'Palau' => 'PW',
+    'Pennsylvania' => 'PA',
+    'Puerto Rico' => 'PR',
+    'Rhode Island' => 'RI',
+    'South Carolina' => 'SC',
+    'South Dakota' => 'SD',
+    'Tennessee' => 'TN',
+    'Texas' => 'TX',
+    'Utah' => 'UT',
+    'Vermont' => 'VT',
+    'Virgin Island' => 'VI',
+    'Virginia' => 'VA',
+    'Washington' => 'WA',
+    'West Virginia' => 'WV',
+    'Wisconsin' => 'WI',
+    'Wyoming' => 'WY'
+  }
 
-
-  state_abbreviated = []
-  if state_input.downcase ==  || state_input.downcase ==
+  if states_by_abbreviation.key?(state_input.upcase)
+    return state_input.upcase
+  elsif state_fullnames_to_abbreviation.key?(state_input.capitalize)
+    return state_fullnames_to_abbreviation[state_input.capitalize]
+  end
 end
+
+modified_state_input = modify_state_input(state_input)
+
 
 
 def find_by_state(who_im_looking_for, what_state_im_looking_for)
@@ -162,5 +210,12 @@ def find_by_state(who_im_looking_for, what_state_im_looking_for)
   senator_names.uniq
 end
 
-senators_from_state = find_by_state(modified_input, state_input)
+senators_from_state = find_by_state(modified_input, modified_state_input)
+
 puts senators_from_state
+
+puts "Please select the person you would like to learn more about."
+
+
+
+binding.pry

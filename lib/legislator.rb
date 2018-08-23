@@ -1,6 +1,6 @@
 class Legislator < ActiveRecord::Base
-  has_many :users
   has_many :donations
+  has_many :users, through: :donations
 
 
   def self.find_by_state(state)
