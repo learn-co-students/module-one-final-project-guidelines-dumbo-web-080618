@@ -10,6 +10,7 @@
  1) Find an issue that you are interested in addressing or a feature that you would like to add.
 
  2) Fork the repository associated with the issue to your local GitHub organization. This means that you will have a copy of the repository under https://github.com/otash8888/module-one-final-project-guidelines-dumbo-web-080618
+ https://github.com/chanfe/module-one-final-project-guidelines-dumbo-web-080618
 
  3) Clone the repository to your local machine using git clone your-clone-link-here
 
