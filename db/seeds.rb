@@ -38,7 +38,6 @@ sad = Activity.create(title: "being sad", category: "Relaxation")
 secret_activity = Activity.create(title: "rolling with god mon", category: "Relaxation")
 
 
-
 ######################weather_variables#################################
 
 rain = Weather.create(condition: "a rainy day")

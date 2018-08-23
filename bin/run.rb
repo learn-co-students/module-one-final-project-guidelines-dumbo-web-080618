@@ -31,14 +31,22 @@ def access_menu
 end
 
 
-
 def main_menu
   prompt = TTY::Prompt.new
   current_weather = random_weather_condition
-  prompt.select("#{current_time}
+  prompt.select("
+    _______       __   __                  ___ ___             __   __
+|   _   .-----|  |_|  |_.-----.----.   |   Y   .-----.---.-|  |_|  |--.-----.----.
+|.  1   |  -__|   _|   _|  -__|   _|   |.  |   |  -__|  _  |   _|     |  -__|   _|
+|.  _   |_____|____|____|_____|__|     |. / \  |_____|___._|____|__|__|_____|__|
+|:  1    \                             |:      |
+|::.. .  /                             |::.|:. |
+`-------'                              `--- ---'
+    #{current_time}
     Can't think of something to do today?
     Welcome to Better Weather CLI!
-    Today's weather calls for #{current_weather.condition}.") do |menu|
+    Today's weather calls for #{current_weather.condition}.
+    ") do |menu|
     menu.choice 'activity', current_weather
     menu.choice 'end', 'end'
     clear_screen
@@ -50,16 +58,15 @@ def activity_menu(current_weather)
   random_activity = current_weather.weather_activities
   prompt.select("Today's weather is perfect for #{random_activity.sample}.") do |menu|
     menu.choice 'different suggestion', current_weather
+    #menu.choice 'choose activity', current_weather
     menu.choice 'end', 'end'
     clear_screen
   end
 end
 
-access_menu
-# Weather.first.weather_activities
-# Weather.all_weather_types
-# binding.pry
-# 0
+# access_menu
+binding.pry
+0
 
 #######################steps###############################
 
