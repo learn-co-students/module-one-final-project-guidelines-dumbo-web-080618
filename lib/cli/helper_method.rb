@@ -31,10 +31,10 @@ def create_doc
   prompt = TTY::Prompt.new
   doctor1 = nil
   begin
-    name = prompt.ask('What is your full name? (first and last name)')
+    name = prompt.ask('What is your full name? (first and last name)').downcase
     splited_name = name.split(" ")
-    gender = prompt.ask('What is your gender?')
-    special = prompt.ask('What is your specialty?')
+    gender = prompt.ask('What is your gender?').downcase
+    special = prompt.ask('What is your specialty?').downcase
     doctor1 = Doctor.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender,specialties:special)
     puts "The doctor has been added!"
   rescue
@@ -48,9 +48,9 @@ def create_pat
   prompt = TTY::Prompt.new
   patient1 = nil
   begin
-    name = prompt.ask('What is your full name? (first and last name)')
+    name = prompt.ask('What is your full name? (first and last name)').downcase
     splited_name = name.split(" ")
-    gender = prompt.ask('What is your gender?')
+    gender = prompt.ask('What is your gender?').downcase
     patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
     puts "The patient has been added!".colorize(:color => :green)
   rescue
@@ -65,9 +65,9 @@ def create_user
   prompt = TTY::Prompt.new
   user = nil
   loop do
-    puts "Input 'quit' or enter to exit"
-    user_name = prompt.ask('Please enter username:')
-    if user_name == "quit" || user_name == nil
+    puts "Input quit to exit"
+    user_name = prompt.ask('Please enter username:').downcase
+    if user_name == "quit"
       puts "returning to login screen"
       return
     end

@@ -39,10 +39,12 @@ class Patient < ActiveRecord::Base
     def update_appointment(doctor, old_date, new_date, duration = 1.0, note = "")
       if doctor_date_avaiable?(doctor, new_date, duration)
         temp = Appointment.find_by(doctor_id: doctor.id, patient_id: self.id, date: old_date)
-        temp.update(date: new_date)
-        system "clear"
-        welcome
-        puts "Time has been updated!".colorize(:color => :green)
+        a = temp.update(date: new_date)
+        #puts "Time has been updated!".colorize(:color => :green)
+         system "clear"
+         welcome
+         puts "The appointment has been updated!".colorize(:color => :green)
+         a
       else
         system "clear"
         welcome
