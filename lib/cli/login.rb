@@ -38,9 +38,12 @@ def login_account
       user = User.find_by(name: username)
       #it works now
       password = prompt.mask('What is your Password?')
+      loop do break if password != nil
+        password = prompt.mask("What is your Password?")
+      end
           if Base64.encode64(password) == user.password
             return user
-          else
+          elsif Base64.encode64(password) != user.password || password == nil
             clear_screen
             logo
             puts "Invalid Username or Password. Please try again".colorize(:red)
@@ -69,11 +72,19 @@ def create_account
       logo
       puts "That username already exists. Please chooser a different username"
       create_account
+    elsif username.length == 0
+      clear_screen
+      logo
+      puts "You didnt type anything"
+      create_account
     end
   same_pass = false
   set_password = nil #used to pass the actual passcode
   while !same_pass
     password1 = prompt.mask("Please choose a password")
+      loop do break if password1 != nil
+        password1 = prompt.mask("Please choose a password")
+      end
     password2 = prompt.mask("Please repeat that password")
     if password1 == password2
       set_password = password1
@@ -81,6 +92,7 @@ def create_account
       same_pass = true
     else
       clear_screen
+      logo
       puts "Password re-entry not the same!".colorize(:red)
       same_pass = false
     end
