@@ -23,7 +23,7 @@ def login
       create_account
     end
 
-  # name = gets.chomp
+  # name = gets.strip
   # user = User.find_or_create_by_name(name)
   # puts "Hello #{user.name}, user #{user.id}."
   # user
@@ -32,7 +32,7 @@ end
 
 def login_account
   puts "What is your Username?".colorize(:yellow)
-    username = gets.chomp
+    username = gets.strip
 
     if User.find_by(name: username) != nil
       user = User.find_by(name: username)
