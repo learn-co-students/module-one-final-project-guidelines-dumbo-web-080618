@@ -57,6 +57,7 @@ def create(name)
     begin
       f_patient = Patient.find_patient(name)
       doctor = prompt.select("Choose your doctor", map_of_doctors)
+      #binding.pry
       if doctor == "EXIT"
         system "clear"
         welcome
@@ -90,6 +91,8 @@ def update(name)
   prompt = TTY::Prompt.new
   begin
     pname = Patient.find_patient(name)
+    loop do
+
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
     if pdoctor == "EXIT"
       system "clear"
@@ -98,6 +101,7 @@ def update(name)
     end
     begin
       old_time = prompt.select('What appointment do you like to update?', map_of_times(pname, pdoctor))
+
       if old_time == "EXIT"
         system "clear"
         welcome
@@ -108,9 +112,9 @@ def update(name)
       welcome
       print "ERROR:".colorize(:color => :white,:background => :red)
       puts " You have no appointment(s) with #{pdoctor.full_name}".colorize(:color => :red)
-      return
+      next
     end
-    puts "dates are DD/MM/YYYY HH:MM example 01/01/0001 00:00"
+    puts "dates are DD/MM/YYYY HH:MM example 01/01/1901 00:00"
     begin
       new_time = Time.parse(prompt.ask('Please enter a new date/time:'))
     rescue
@@ -118,13 +122,21 @@ def update(name)
       welcome
       print "ERROR:".colorize(:color => :white,:background => :red)
       puts " The input you have entered does not complie with the date format".colorize(:color => :red)
-      return
+      next #return
     end
+      if new_time != nil
 
-    pname.update_appointment(pdoctor, old_time, new_time)
-    system "clear"
-    welcome
-    puts "The appointment has been updated!".colorize(:color => :green)
+        u = pname.update_appointment(pdoctor, old_time, new_time)
+        if u == nil
+          next
+        end
+        break
+      end
+
+    end
+    # system "clear"
+    # welcome
+    # puts "The appointment has been updated!".colorize(:color => :green)
   rescue
     puts "Yep something went wrong in update dunno where..."
     binding.pry
@@ -172,7 +184,7 @@ end
 def login
   prompt = TTY::Prompt.new
 
-  user_name = prompt.ask('Please enter username:')
+  user_name = prompt.ask('Please enter username:').downcase
   user_password = prompt.mask('Please enter password:')
 
   begin
