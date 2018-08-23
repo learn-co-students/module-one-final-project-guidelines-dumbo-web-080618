@@ -70,7 +70,10 @@ class Patient < ActiveRecord::Base
       if temp != nil
         temp.destroy
       else
-        puts "Error: there either no doctor of that obj or the inputed date is already removed"
+        system "clear"
+        welcome
+        print "ERROR:".colorize(:color => :white,:background => :red)
+        puts " There is no doctor available".colorize(:color => :red)
       end
     end
 
