@@ -187,11 +187,18 @@ end
 def login
   prompt = TTY::Prompt.new
 
-  user_name = prompt.ask('Please enter username:').downcase
-  user_password = prompt.mask('Please enter password:')
+  user_name = prompt.ask('Please enter username:')
+  if user_name == nil or user_name == ""
+    welcome
+    print "ERROR:".colorize(:color => :white,:background => :red)
+    puts " No username entered".colorize(:color => :red)
+    return
+  else
+    user_password = prompt.mask('Please enter password:')
+  end
 
   begin
-    cred1 = Credential.find_by(username:user_name,password:user_password)
+    cred1 = Credential.find_by(username:user_name.downcase.strip,password:user_password)
     Patient.find_by(id:cred1.other_id)
   rescue
 

@@ -48,10 +48,22 @@ def create_pat
   prompt = TTY::Prompt.new
   patient1 = nil
   begin
-    name = prompt.ask('What is your full name? (first and last name)').downcase
-    splited_name = name.split(" ")
-    gender = prompt.ask('What is your gender?').downcase
-    patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
+    name = prompt.ask('What is your full name? (first and last name)')
+    if name == nil or name == ""
+      welcome
+      print "ERROR:".colorize(:color => :white,:background => :red)
+      puts " No name entered".colorize(:color => :red)
+      return
+    end
+    splited_name = name.downcase.split(" ")
+    gender = prompt.ask('What is your gender?')
+    if gender == nil or gender == ""
+      welcome
+      print "ERROR:".colorize(:color => :white,:background => :red)
+      puts " No gender entered".colorize(:color => :red)
+      return
+    end
+    patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender.downcase)
     puts "The patient has been added!".colorize(:color => :green)
   rescue
     welcome
@@ -66,7 +78,14 @@ def create_user
   user = nil
   loop do
     puts "Input quit to exit"
-    user_name = prompt.ask('Please enter username:').downcase
+    user_name = prompt.ask('Please enter username:')
+    if user_name == nil
+      welcome
+      print "ERROR:".colorize(:color => :white,:background => :red)
+      puts " No username entered".colorize(:color => :red)
+      return
+    end
+    user_name = user_name.downcase
     if user_name == "quit"
       puts "returning to login screen"
       return
@@ -76,7 +95,13 @@ def create_user
       user_password2 = prompt.mask('Please enter password again:')
       if user_password1 == user_password2
         user = create_pat
-        Credential.create(username:user_name,password:user_password1,admin?:false,other_id:user.id)
+        if user == nil
+          welcome
+          print "ERROR:".colorize(:color => :white,:background => :red)
+          puts " No name or gender".colorize(:color => :red)
+          return
+        end
+        Credential.create(username:user_name.downcase,password:user_password1,admin?:false,other_id:user.id)
         break
       else
         welcome
