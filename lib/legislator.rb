@@ -3,6 +3,7 @@ class Legislator < ActiveRecord::Base
   has_many :users, through: :donations
 
 
+  TTY::Prompt.new
   def self.find_by_state(state)
     senators = Legislator.all.select {|legislator| legislator.title =='sen'}
     senators.find(state: state)
@@ -23,10 +24,5 @@ class Legislator < ActiveRecord::Base
     full_name
   end
 
-  def self.find_phone_number(legislator_name)
-    # phone_number = ''
-    # Legislator.all.each do {|legislator| legislator.}
-    # phone_number
-  end
 end
 0
