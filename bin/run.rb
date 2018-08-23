@@ -78,6 +78,20 @@ def signup
   if EmailAddress.valid?(email_address) != true
     puts "That was an invalid email address format,please try again".green
     signup
+  elsif User.find_by(email: email_address) != nil
+    i = TTY::Prompt.new.select("Sorry, that email address is already in use with another account. Would you like to:") do |y|
+      y.choices "Sign in with existing account?": "existing", "Make a new account?" => "signup", Exit: "exit"
+    end
+
+      case i
+      when "existing"
+        existing
+      when "signup"
+        signup
+      when "exit"
+        puts "Thank you for using, have a nice day.".green
+        exit
+      end
   else
     puts "Please enter your full name".blue
     name = gets.strip.downcase
@@ -86,28 +100,10 @@ def signup
         exit
       end
 
-  new_user = nil
-    if User.find_by(email: email_address) == nil
-        new_user = User.create(name:name, email:email_address)
-        ################## figure out if they want to try the same email again/ try signing in ##################
-      else
-        i = TTY::Prompt.new.select("Sorry, that email address is already in use with another account. Would you like to:") do |y|
-          y.choices "Sign in with existing account?": "existing", "Make a new account?" => "signup", Exit: "exit"
-        end
-
-          case i
-          when "existing"
-            existing
-          when "signup"
-            signup
-          when "exit"
-            puts "Thank you for using, have a nice day.".green
-            exit
-          end
-      end
-    end
+    new_user = User.create(name:name, email:email_address)
     main(new_user)
     puts 'clear'
+    end
   end
 
   def existing
@@ -257,7 +253,7 @@ M~~~~~~~~~~~=::::::::+:::88I::::::~~~~=7~~~~~~~~M              M~~~~~~~~~Z
     user_a= user.activities
     prompt = TTY::Prompt.new
     options = []
-    user_a.each {|act| options.push({name:"Place:#{act.place}, Price:#{act.price}, Genre:#{act.genre}", value: act})}
+    user_a.each {|act| options.push({name:"Place: #{act.place}, Price: $#{act.price}, Genre: #{act.genre}", value: act})}
     var = prompt.select("You choose to delete", options)
     #
 
@@ -367,7 +363,7 @@ M~~~~~~~~~~~=::::::::+:::88I::::::~~~~=7~~~~~~~~M              M~~~~~~~~~Z
 
     puts `clear`
     v = SavedActivity.create(user_id:user.id, activity_id:var.id)
-    # g = Activity.find(var.id)
+
     user.reload
 
     i = TTY::Prompt.new.select("Activity saved in your profile! Do you want to:") do |y|
@@ -385,5 +381,9 @@ M~~~~~~~~~~~=::::::::+:::88I::::::~~~~=7~~~~~~~~M              M~~~~~~~~~Z
         end
       end
   end
+
+
+
+
 
 greeting
