@@ -5,13 +5,19 @@ def login
   # puts "(1) Yes, I would like to log-in".colorize(:cyan)
   # puts "(2) No, I would like to create an account".colorize(:cyan)
 
-    input = prompt.yes?("Do you have an account?")
+    # input = prompt.yes?("Do you have an account?")
 
-    if input == true
+
+    input = prompt.select("Do you have an account?") do |menu2|
+      menu2.choice 'Yes, let me log-in', 1
+      menu2.choice 'No, I would like to create one', 2
+    end
+
+    if input == 1
       clear_screen
       logo
       login_account
-    elsif input == false
+    elsif input == 2
       clear_screen
       logo
       create_account
@@ -80,7 +86,7 @@ def create_account
     end
     clear_screen
   end
-  
+
 
   user = User.create(name: username, password: set_password)
   return user
