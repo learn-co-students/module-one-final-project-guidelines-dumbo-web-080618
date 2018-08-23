@@ -54,8 +54,9 @@ def create_pat
     patient1 = Patient.create(first_name:splited_name[0],last_name:splited_name[1],gender:gender)
     puts "The patient has been added!".colorize(:color => :green)
   rescue
-    puts "Yep something went wrong in create_pat dunno where..."
-    binding.pry
+    welcome
+    print "ERROR:".colorize(:color => :white,:background => :red)
+    puts " Name and gender must exist".colorize(:color => :red)
   end
   patient1
 end
@@ -64,9 +65,9 @@ def create_user
   prompt = TTY::Prompt.new
   user = nil
   loop do
-    puts "Input quit to exit"
+    puts "Input 'quit' or enter to exit"
     user_name = prompt.ask('Please enter username:')
-    if user_name == "quit"
+    if user_name == "quit" || user_name == nil
       puts "returning to login screen"
       return
     end
@@ -78,13 +79,11 @@ def create_user
         Credential.create(username:user_name,password:user_password1,admin?:false,other_id:user.id)
         break
       else
-        system "clear"
         welcome
         print "ERROR:".colorize(:color => :white,:background => :red)
         puts " Password did not match".colorize(:color => :red)
       end
     else
-      system "clear"
       welcome
       print "ERROR:".colorize(:color => :white,:background => :red)
       puts " Username have been taken".colorize(:color => :red)
