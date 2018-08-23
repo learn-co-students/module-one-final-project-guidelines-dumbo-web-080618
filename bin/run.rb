@@ -102,17 +102,18 @@ def signup
   end
 
   def saved_activities(user)
-    user.reload
+    # user.reload
     all = user.activities
     results = []
     #binding.pry
     if all.length == 0
-      puts "Nothing in your saved activities, do you want to search for some?"
-        yo= gets.chomp
-        if yo.include?("yes")
+      prompt = TTY::Prompt.new.select("Nothing in your saved activities, do you want to search for some?") do |y|
+        y.choices "Yes": "yes", "No, sign me out" => "exit"
+      end
+        case prompt
+        when "yes"
         add(user)
-      elsif yo.include?("no")
-        ##################### NEEDS TO BE WORKED OUT #####################
+        when "no"
         puts "Thanks for using! Have a great day."
         exit
       end
@@ -145,7 +146,7 @@ def signup
       end
 
   def delete(user)
-    user.reload
+    # user.reload
     user_a= user.activities
     prompt = TTY::Prompt.new
     options = []
