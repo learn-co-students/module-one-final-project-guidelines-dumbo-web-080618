@@ -1,5 +1,6 @@
 require_relative '../config/environment'
+ActiveRecord::Base.logger = nil
+require 'pry'
 
-
-
-puts "HELLO WORLD"
+start_menu
+choose_menu
