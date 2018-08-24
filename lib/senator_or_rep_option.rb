@@ -3,6 +3,9 @@ def choose_sen_or_rep
   puts "Please type the word senator or house representative"
 
   user_input = gets.chomp
+  if user_input = ''
+    choose_sen_or_rep
+  end
 end
 
 

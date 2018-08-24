@@ -30,7 +30,10 @@ end
 
 def party
   puts 'Please enter political party.'
-  party = gets.chomp
+  party_name = gets.chomp
+  if party_name == ''
+    party
+  end
 end
 
 def sign_up
