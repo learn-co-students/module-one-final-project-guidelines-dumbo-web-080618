@@ -160,7 +160,7 @@ def remove(name)
         return
       end
       begin
-        time = prompt.select('What appointment do you like to update?', map_of_times(patient, doctor))
+        time = prompt.select('What appointment do you like to remove?', map_of_times(patient, doctor))
         if time == "EXIT"
 
           welcome

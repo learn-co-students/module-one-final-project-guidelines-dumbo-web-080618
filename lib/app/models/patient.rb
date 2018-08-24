@@ -70,6 +70,7 @@ class Patient < ActiveRecord::Base
           f_doc = Doctor.find_by(id:id1)
           puts "-------------------------------------------"
           puts "Doctor name: #{f_doc.full_name}"
+          puts "Doctor's specialty: #{f_doc.specialties}"
           puts "appointment date: #{appt_obj.date.localtime}"
           puts "-------------------------------------------"
         end
