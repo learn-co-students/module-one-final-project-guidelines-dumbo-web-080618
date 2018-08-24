@@ -74,7 +74,7 @@ end
 
 def add_item
   prompt = TTY::Prompt.new(active_color: :cyan,help_color: :cyan)
-  items = Shoe.all.map {|shoe| shoe.item_id}
+  items = Shoe.all.map {|shoe| shoe.item_id}.sort
 
   item_to_add = ""
   loop do
@@ -103,16 +103,21 @@ end
 def update_stock
   prompt = TTY::Prompt.new(active_color: :cyan,help_color: :cyan)
   store_stock_objects = Store.find_by(name: $which_store).stocks
+
   if store_stock_objects.empty?
     puts "You have no items in your inventory. Returning to main menu..."
     retailer_options
   else
     store_stock_item_ids = store_stock_objects.map {|stock| stock.shoe.item_id}
     item_to_update = prompt.select("Please select the item by its ID",store_stock_item_ids, cycle: true)
-    total_quantity = prompt.slider("What is the total amount you have in stock?", min:1, max: 10, step: 1,convert: :int)
     object_to_update = store_stock_objects.find {|stock| stock.shoe.item_id == item_to_update}
+    puts "Current quantity in stock is #{object_to_update.quantity}."
+    total_quantity = prompt.slider("What is the total amount you wish to have listed?", min:1, max: 10, step: 1,convert: :int)
+    puts "Current price is $#{object_to_update.price}."
+    new_price = prompt.slider("Would you like to change the price?", min: 100, max: 300, step:5, convert: :int)
 
     object_to_update.quantity = total_quantity
+    object_to_update.price = new_price
     object_to_update.save
 
     keep_going = prompt.select("Would you like to do anything else?", ["Yes","No"], cycle: true)
