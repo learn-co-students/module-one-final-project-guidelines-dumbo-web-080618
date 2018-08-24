@@ -80,7 +80,7 @@ def create(name)
 
         welcome
         print "ERROR:".colorize(:color => :white,:background => :red)
-        puts " Time have been taken or you have not enter the correct date format".colorize(:color => :red)
+        puts " The time has been taken or you did not enter the correct date format".colorize(:color => :red)
       end
     rescue
       puts "Yep something went wrong in create dunno where..."
