@@ -4,7 +4,7 @@ def admin_validation
 
   while can_access == false
     password = prompt.mask("Please enter the administrative password")
-    if password == "Kicks_Rule_Everything_Around_Me___KICKS"
+    if password == "Kicks_Rule_Everything_Around_Me___KREAM"
       puts "Welcome, Sneaker God!"
       can_access = true
     else
@@ -36,12 +36,12 @@ end
 def create_shoe
   prompt = TTY::Prompt.new(active_color: :cyan,help_color: :cyan)
   puts "Please enter the following information:"
-  brand = prompt.ask("Shoe Brand")
-  model = prompt.ask("Shoe Model")
-  item_id = prompt.ask("Shoe Item ID")
+  brand = prompt.ask("Shoe Brand", required: true)
+  model = prompt.ask("Shoe Model", required: true)
+  item_id = prompt.ask("Shoe Item ID", required: true)
   size = prompt.slider("Shoe Size",min:5,max:18,step:1)
-  color = prompt.ask("Shoe Color")
-  style = prompt.ask("Shoe Style")
+  color = prompt.ask("Shoe Color", required: true)
+  style = prompt.ask("Shoe Style", required: true)
   msrp = prompt.slider("Shoe MSRP", min:100, max: 300, step: 5)
   Shoe.create(brand: brand, model: model, item_id: item_id, size: size, color: color, style: style, msrp: msrp)
 
