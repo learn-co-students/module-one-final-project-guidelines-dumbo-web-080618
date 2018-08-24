@@ -62,11 +62,11 @@ def create_account
     end
   same_pass = false
   set_password = nil #used to pass the actual passcode
+
   while !same_pass
+    password1 = prompt.mask("Please choose a password")
     clear_screen
     logo
-    password1 = prompt.mask("Please choose a password")
-
       loop do
         break if password1 != nil
         password1 = prompt.mask("Please choose a password")
@@ -82,7 +82,6 @@ def create_account
       puts "Password re-entry not the same!".colorize(:red)
       same_pass = false
     end
-    clear_screen
   end
   are_you_sure = prompt.select("Please confirm your condentials. Yes to confirm, No to cancel.\nUsername: #{username} & Password: #{set_password}"){|menu|
     menu.choice 'Yes', 1
