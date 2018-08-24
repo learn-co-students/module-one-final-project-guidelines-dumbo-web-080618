@@ -37,7 +37,7 @@ def topic_review(user)
   on_topic_questions = user.questions.select{|question| question.topic == my_topic}.shuffle
 
 
-  number_of_questions = prompt.slider("How many questions would you like to solve", max: (on_topic_questions.size-1), step: 1 )
+  number_of_questions = prompt.slider("How many questions would you like to solve", max: (on_topic_questions.size), step: 1 )
 
   until number_of_questions <= 0
     clear_screen
@@ -59,7 +59,7 @@ def random_review(user)
   puts "Random question:".colorize(:cyan)
   random_questions = user.questions.shuffle
 
-  questions_to_answer = prompt.slider("How many questions would you like to solve", max: (random_questions.size-1), step: 1 )
+  questions_to_answer = prompt.slider("How many questions would you like to solve", max: (random_questions.size), step: 1 )
 
   until questions_to_answer <= 0#random_questions.size <= 0
     random = random_questions.pop
