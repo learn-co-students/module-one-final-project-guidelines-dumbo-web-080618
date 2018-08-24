@@ -268,9 +268,9 @@ def make_donation(legislator_obj)
   puts "#{legislator_obj.full_name}"
   puts "Enter 1 for yes or 2 for no"
   user_input = gets.chomp
-  puts 'Please enter the amount you would like to donate'
-  amount_input = gets.chomp.to_i
   if user_input == '1'
+    puts 'Please enter the amount you would like to donate'
+    amount_input = gets.chomp.to_i
     user.donate(legislator_obj.id, amount_input)
     puts "Thank you for making a donation"
   else
@@ -283,11 +283,13 @@ def make_donation(legislator_obj)
     puts "Please confirm this is the legislator you would like to donate to."
     puts "#{legislator_obj.full_name}"
     puts "Enter 1 for yes or 2 for no"
-    user_input_again = gets.chomp
-    if user_input == '1'
+    user_input_again = gets.chomp #not working
+    if user_input_again == '1'
+      puts 'Please enter the amount you would like to donate'
+      amount_input = gets.chomp.to_i
       user.donate(legislator_obj.id, amount_input)
       puts 'Thank you for making a donation'
-    else
+    elsif user_input_again == '2'
       puts "Sorry it doesn't seem like we have that legislator"
       puts "Type 'quit' to exit or 'view' to view another representative."
       user_input = gets.chomp
