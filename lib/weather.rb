@@ -13,4 +13,5 @@ class Weather < ActiveRecord::Base
     self.activities.map{|activity| activity.title}
   end
 
+
 end
