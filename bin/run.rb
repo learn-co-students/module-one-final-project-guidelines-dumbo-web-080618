@@ -31,6 +31,7 @@ def access_menu
   end
 end
 
+
 def main_menu
   prompt = TTY::Prompt.new
   current_weather = random_weather_condition
