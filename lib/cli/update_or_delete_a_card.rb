@@ -43,17 +43,14 @@ def update_card(user)
   logo
   user = update_user(user)
   questions = user.questions
-  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer}, Topic #{question.topic}".colorize(:white)}
-  puts "Please choose a question ID you want to update".colorize(:yellow)
-  q_id = gets.chomp.to_i
+ 
+  all_questions = questions.map{|e_quest| e_quest.question}
 
-if (questions.find{|question| question.id == q_id.to_i} != nil)
-  question = Question.find(q_id.to_i)
-  # puts "What would you like to update"
-  # puts "(1) The Topic: #{question.topic}".colorize(:white)
-  # puts "(2) The Question: #{question.question}".colorize(:white)
-  # puts "(3) The Answer: #{question.answer}".colorize(:white)
-  # puts "(4) Exit".colorize(:red)
+  question_selected = prompt.select("Please choose the question you want to update", all_questions)
+
+# if (questions.find{|question| question.id == q_id.to_i} != nil)
+if (questions.find{|query| query.question == question_selected} != nil)
+  question = Question.find_by(:question => question_selected)
 
   change = prompt.select("What would you like to update?") do |menu1|
     menu1.choice 'The Topic: ' + question.topic, 1
@@ -124,33 +121,35 @@ def delete_card(user)
   logo
   user = update_user(user)
   questions = user.questions
-  puts "Please choose a question to delete from your deck".colorize(:yellow)
+  # puts "Please choose a question to delete from your deck".colorize(:yellow)
   puts "Type 'exit' to exit".colorize(:red)
-  questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer} Topic: #{question.topic}".colorize(:white)}
+  # questions.each{|question| puts "ID: #{question.id}, Question:#{question.question}, Answer: #{question.answer} Topic: #{question.topic}".colorize(:white)}
+  all_questions_content = questions.map{|e_query| e_query.question}
+  all_questions_content << "exit"
+  question_to_delete = prompt.select("Please choose a question to delete from your deck", all_questions_content)
 
-
-
-  q_id = prompt.ask('Which question would you like to delete?')
+  # q_id = prompt.ask('Which question would you like to delete?')
   clear_screen
   logo
-  while q_id != "exit" && questions.count > 0
-    if q_id != "exit" && (questions.find{|question| question.id == q_id.to_i} != nil)
+  # while question_to_delete != "exit" #&& questions.count > 0
+    if question_to_delete != "exit" #&& (questions.find{|question| question.question == question_to_delete} != nil)
 
-      question = Question.find(q_id.to_i)
+      question = Question.find_by(:question => question_to_delete)
 
       deck = Deck.find_by(user_id: user.id, question_id: question.id)
-
-      Deck.destroy(deck.id)
+      # binding.pry
+      Deck.destroy(deck.id) #Change
       clear_screen
       logo
       puts "Question has been deleted"
+      # binding.pry
       delete_card(user)
 
-     else
-      q_id = prompt.ask('Please enter a valid choice?')
-
+    #  else
+    #   # q_id = prompt.ask('Please enter a valid choice?')
+    #   puts "What did you do?"
      end
-  end
+  # end
   clear_screen
   logo
   puts "Question has been deleted"
