@@ -4,18 +4,28 @@ def welcome
 end
 
 def get_name
-  puts "Hello, what is your name?"
+  puts "Please enter a name"
   name = gets.chomp
+
+  if name == ''
+    get_name
+  end
 end
 
 def get_age
   puts 'Please enter your age.'
   age = gets.chomp.to_i
+  if age == 0
+    get_age
+  end
 end
 
 def gender
   puts 'Please enter gender.'
   gender = gets.chomp
+  if gender == ''
+    gender
+  end
 end
 
 def party
