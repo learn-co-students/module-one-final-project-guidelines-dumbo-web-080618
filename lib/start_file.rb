@@ -34,9 +34,12 @@ end
 def validation
   user_name = get_name
   user_age = get_age
-  user = User.find_by(name: user_name)
+  user = User.find_by(name: user_name, age: user_age)
   if user.age == user_age
     return user
+  else
+    puts "You weren't found in the database"
+    sign-up
   end
 end
 
@@ -50,6 +53,7 @@ def start_menu
   elsif user_input.downcase == 'sign-up'
     sign_up
   else
-    puts 'Please enter login or sign-up'
+    puts "Please enter 'login' or 'sign-up'"
+    start_menu
   end
 end
