@@ -18,7 +18,6 @@ end
 
 def find_sen_or_rep(searchfor)
   searchfor = searchfor.slice(0,3)
-  binding.pry
   legislatorArray = Legislator.all.select {|legislator| legislator.title == searchfor}
   legislatorArray.each_with_index do |legislator,  index|
     puts "#{index + 1}. #{legislator}"

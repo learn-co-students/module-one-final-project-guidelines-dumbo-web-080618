@@ -24,4 +24,3 @@ class Legislator < ActiveRecord::Base
   end
 
 end
-0
