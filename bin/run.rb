@@ -1,8 +1,8 @@
 require_relative '../config/environment'
 require_relative './user.rb'
 require_relative './retailer.rb'
+require_relative './admin.rb'
 ActiveRecord::Base.logger = nil
-$available_stock = Stock.all
 
 def run
   prompt = TTY::Prompt.new(active_color: :cyan,help_color: :cyan)
@@ -15,11 +15,13 @@ def run
   puts ""
   puts "OH SHIT SON! Welcome to Sole Search!"
   puts ""
-  user_input = prompt.select("You tryna buy some fresh kicks today?",%w(Yes No\ I'm\ a\ retailer),cycle: true)
+  user_input = prompt.select("You tryna buy some fresh kicks today?",["Yes", "No I'm a retailer", "Actually I run this site"],cycle: true)
   if user_input == "Yes"
     user_greeting
-  else
+  elsif user_input == "No I'm a retailer"
     retailer_greeting
+  else
+    admin_validation
   end
 end
 
