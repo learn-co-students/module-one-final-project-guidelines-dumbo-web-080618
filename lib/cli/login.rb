@@ -1,33 +1,20 @@
 
 def login
   logo
-  # puts "Welcome to the Learning Zone. Do you have an account?".colorize(:yellow)
-  # puts "(1) Yes, I would like to log-in".colorize(:cyan)
-  # puts "(2) No, I would like to create an account".colorize(:cyan)
+  input = prompt.select("Do you have an account?") do |menu2|
+    menu2.choice 'Yes, let me log-in', 1
+    menu2.choice 'No, I would like to create one', 2
+  end
 
-    # input = prompt.yes?("Do you have an account?")
-
-
-    input = prompt.select("Do you have an account?") do |menu2|
-      menu2.choice 'Yes, let me log-in', 1
-      menu2.choice 'No, I would like to create one', 2
-    end
-
-    if input == 1
-      clear_screen
-      logo
-      login_account
-    elsif input == 2
-      clear_screen
-      logo
-      create_account
-    end
-
-  # name = gets.strip
-  # user = User.find_or_create_by_name(name)
-  # puts "Hello #{user.name}, user #{user.id}."
-  # user
-
+  if input == 1
+    clear_screen
+    logo
+    login_account
+  elsif input == 2
+    clear_screen
+    logo
+    create_account
+  end
 end
 
 def login_account
@@ -57,15 +44,6 @@ def login_account
       puts "The account name does not exist. Please try again".colorize(:red)
       login_account
     end
-
-
-
-
-
-
-
-
-
 end
 
 def create_account
@@ -84,11 +62,11 @@ def create_account
     end
   same_pass = false
   set_password = nil #used to pass the actual passcode
+
   while !same_pass
+    password1 = prompt.mask("Please choose a password")
     clear_screen
     logo
-    password1 = prompt.mask("Please choose a password")
-
       loop do
         break if password1 != nil
         password1 = prompt.mask("Please choose a password")
@@ -104,12 +82,20 @@ def create_account
       puts "Password re-entry not the same!".colorize(:red)
       same_pass = false
     end
+  end
+  are_you_sure = prompt.select("Please confirm your condentials. Yes to confirm, No to cancel.\nUsername: #{username} & Password: #{set_password}"){|menu|
+    menu.choice 'Yes', 1
+    menu.choice 'No', 2
+  }
+  if are_you_sure == 1
+    user = User.create(name: username, password: set_password)
+    return user
+  else
     clear_screen
+    logo
+    create_account
   end
 
-
-  user = User.create(name: username, password: set_password)
-  return user
 end
 
 

@@ -34,7 +34,7 @@ end
 def single_random_question(user, questions)
   random_question_obj = questions.shuffle.first
   rand_question = random_question_obj.question
-  your_answer = prompt.ask("The Question is: #{rand_question}?")
+  your_answer = prompt.ask("The Question is: #{rand_question}")
   check_rand_answer(user, random_question_obj, your_answer)
 end
 
