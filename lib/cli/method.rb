@@ -58,9 +58,7 @@ def create(name)
     begin
       f_patient = Patient.find_patient(name)
       doctor = prompt.select("Choose your doctor", map_of_doctors)
-      #binding.pry
       if doctor == "EXIT"
-
         welcome
         return
       end
@@ -73,7 +71,11 @@ def create(name)
         end
         date = Time.parse(input)
         a = f_patient.add_appointment(doctor, date)
-        return
+        if a == nil
+          next
+        else
+          return
+        end
       rescue
 
         welcome
@@ -98,7 +100,6 @@ def update(name)
 
     pdoctor = prompt.select("Choose your doctor", map_of_doctors)
     if pdoctor == "EXIT"
-
       welcome
       return
     end

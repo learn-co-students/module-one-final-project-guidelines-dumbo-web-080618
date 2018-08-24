@@ -30,8 +30,21 @@ end
 def kill_doc
   prompt = TTY::Prompt.new
   begin
-    
-    puts "The doctor has been killed! U MURDERER!!"
+    doctor = prompt.select("Choose your doctor", map_of_doctors)
+    if doctor == "EXIT"
+      welcome
+      return
+    end
+    loop do
+      temp = Appointment.find_by(doctor_id: doctor.id)
+      if temp == nil
+        break
+      end
+      temp.destroy
+    end
+    doctor.destroy
+    print "KILLER ALERT:".colorize(:color => :white,:background => :red)
+    puts " Doctor #{doctor.full_name} has been killed! U MURDERER!! and you also most likly broke the code".colorize(:color => :red)
   rescue
     puts "Yep something went wrong in create_doc dunno where..."
     binding.pry
