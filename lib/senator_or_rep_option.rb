@@ -3,8 +3,10 @@ def choose_sen_or_rep
   puts "Please type the word senator or house representative"
 
   user_input = gets.chomp
-  if user_input = ''
+  if user_input == ''
     choose_sen_or_rep
+  else
+    return user_input
   end
 end
 
@@ -16,6 +18,7 @@ def modify_senator_rep_input(userInput)
     return userInput = userInput.slice(6..8)
   else
     puts "Please type the words senator or house representative"
+
   end
 end
 
