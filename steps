@@ -1,0 +1,82 @@
+#######################steps###############################
+
+
+
+#1st|b| - format intro - example below -- below intro is prompt for *next* or *exit* or *help*
+#_____________________________________________________________________________________
+#Good morning/afternoon/evening!. Can't think of something to do today?
+#Welcome to Better Weather CLI! Today's weather is #{weather instance}
+#        => next
+#        => help or 'h'
+#        => exit
+
+#   - find a way to fetch time off user's computer and use that information to determine
+#       whether to greet with morning/afternoon/night (current_time method)
+
+#   - define random weather method in weather class
+#
+#_____________________________________________________________________________________
+
+
+
+
+
+#2nd|a| - next - what happens when next is selected - outputs a random activity when
+#                   certain conditions are met
+
+#_________________________________________________________________
+#Today's weather is perfect for jogging!
+#             => Different activity!
+#             => exit
+#_________________________________________________________________
+
+
+
+
+
+#3rd|b| - exit - if exit is selected then output message
+
+#_________________________________________________________________
+#Thank you for visiting Better Weather CLI!
+#_________________________________________________________________
+
+
+
+
+_________________________________________________________________
+chomp draft
+
+# def main_menu ##chomp
+#   # prompt = TTY::Prompt.new
+#   current_weather = random_weather_condition
+#
+#   puts "
+#     _______       __   __                  ___ ___             __   __
+# |   _   .-----|  |_|  |_.-----.----.   |   Y   .-----.---.-|  |_|  |--.-----.----.
+# |.  1   |  -__|   _|   _|  -__|   _|   |.  |   |  -__|  _  |   _|     |  -__|   _|
+# |.  _   |_____|____|____|_____|__|     |. / \  |_____|___._|____|__|__|_____|__|
+# |:  1    \                             |:      |
+# |::.. .  /                             |::.|:. |
+# `-------'                              `--- ---'
+#     #{current_time}
+#     Can't think of something to do today?
+#     Welcome to Better Weather CLI!
+#     Today's weather calls for #{current_weather.condition}.
+#     /n 1. activity /n 2. end
+#     "
+#
+#     user_input = gets.chomp
+#     case user_input
+#     when "1"
+#       activity_menu(current_weather)
+#     when "2"
+#       puts "Should be exit"
+#     else
+#       puts "wrong entry"
+#       main_menu
+#     end
+#
+#     # menu.choice 'activity', 'activity'
+#     # menu.choice 'end', 'end'
+#
+# end
